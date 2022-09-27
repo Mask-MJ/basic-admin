@@ -106,7 +106,7 @@
     if (userInfo) {
       notification.success({
         message: '登录成功',
-        description: `欢迎回来: ${userInfo.nickName}`,
+        description: `欢迎回来: ${userInfo.user.nickName}`,
         duration: 3,
       });
     }

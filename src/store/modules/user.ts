@@ -66,10 +66,10 @@ export const useUserStore = defineStore({
       goHome && (await router.replace(PageEnum.BASE_HOME));
       return userInfo;
     },
-    async getUserInfoAction(): Promise<UserInfo | null> {
+    async getUserInfoAction(): Promise<GetUserInfoModel | null> {
       if (!this.getToken) return null;
       const userInfo = await getUserInfo();
-      this.setUserInfo(userInfo);
+      this.setUserInfo(userInfo.user);
       return userInfo;
     },
     /**

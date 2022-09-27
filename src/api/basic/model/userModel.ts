@@ -1,7 +1,5 @@
 export interface GetUserInfoModel {
-  nickName: string;
-  avatar: string;
-  userName: string;
+  user: { nickName: string; avatar: string; userName: string };
 }
 
 export interface LoginParams {

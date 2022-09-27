@@ -63,3 +63,15 @@ export interface MenuSetting {
   mixSideTrigger: MixSidebarTriggerEnum;
   mixSideFixed: boolean;
 }
+
+// 动画设置
+export interface TransitionSetting {
+  //  Whether to open the page switching animation
+  enable: boolean;
+  // Route basic switching animation
+  basicTransition: RouterTransitionEnum;
+  // Whether to open page switching loading
+  openPageLoading: boolean;
+  // Whether to open the top progress bar
+  openNProgress: boolean;
+}
