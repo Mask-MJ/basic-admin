@@ -3,21 +3,28 @@
  * 加载的环境变量是json字符串
  * 通过 wrapperEnv 方法转换格式
  */
-export const wrapperEnv = (envConf: Recordable): ViteEnv => {
+export function wrapperEnv(envConf: Recordable): ViteEnv {
   const ret: any = {};
   for (const envName of Object.keys(envConf)) {
-    let value = envConf[envName];
+    let realName = envConf[envName].replace(/\\n/g, '\n');
+    realName = realName === 'true' ? true : realName === 'false' ? false : realName;
+
     if (envName === 'VITE_PORT') {
-      value = Number(value);
+      realName = Number(realName);
     }
-    if (envName === 'VITE_PROXY' && value) {
+    if (envName === 'VITE_PROXY' && realName) {
       try {
-        value = JSON.parse(value.replace(/'/g, '"'));
+        realName = JSON.parse(realName.replace(/'/g, '"'));
       } catch (error) {
-        value = '';
+        realName = '';
       }
     }
-    ret[envName] = value;
+    ret[envName] = realName;
+    if (typeof realName === 'string') {
+      process.env[envName] = realName;
+    } else if (typeof realName === 'object') {
+      process.env[envName] = JSON.stringify(realName);
+    }
   }
   return ret;
-};
+}

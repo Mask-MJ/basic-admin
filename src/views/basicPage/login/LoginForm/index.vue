@@ -13,7 +13,7 @@
   import { createForm } from '@formily/core';
   import { createSchemaField, FormProvider } from '@formily/vue';
   import { FormItem, FormLayout, Password, Input, Submit, Checkbox } from '@formily/antdv-x3';
-  // import { getPictureCode } from '/@/api/basic/user';
+  import { getPictureCode } from '/@/api/basic/user';
   import { observer } from '@formily/reactive-vue';
 
   import { useUserStore } from '/@/store/modules/user';
@@ -25,8 +25,7 @@
   const { notification } = useMessage();
 
   const handleStart = async () => {
-    // const pictureCode = await getPictureCode();
-    const pictureCode = {};
+    const pictureCode = await getPictureCode();
     uuid.value = pictureCode.uuid;
     img.value = `data:image/gif;base64,${pictureCode.img}`;
   };
@@ -107,7 +106,7 @@
     if (userInfo) {
       notification.success({
         message: '登录成功',
-        description: `欢迎回来: ${userInfo.user.nickName}`,
+        description: `欢迎回来: ${userInfo.nickName}`,
         duration: 3,
       });
     }
