@@ -1,10 +1,13 @@
 <template>
-  <a-sub-menu :item="props.item">
-    <template #icon>{{ item.icon }} </template>
+  <a-sub-menu :key="item.path">
+    <template #icon> <Icon :icon="item.icon" /> </template>
     <template #title>{{ item.name }} </template>
-    <template v-for="childrenItem in item.children || []" :key="childrenItem.path">
-      <!-- <a-menu-item>{{ childrenItem.name }}</a-menu-item> -->
-      <MenuItem :item="childrenItem" />
+    <template v-for="childrenItem in item.children" :key="childrenItem.path">
+      <MenuItem v-if="childrenItem?.children" :item="childrenItem" />
+      <a-menu-item v-else :key="childrenItem.path">
+        <template #icon> <Icon :icon="childrenItem.icon" /> </template>
+        {{ childrenItem.name }}
+      </a-menu-item>
     </template>
   </a-sub-menu>
 </template>
@@ -16,7 +19,8 @@
   const props = defineProps({
     item: {
       type: Object as PropType<Menu>,
-      default: () => {},
+      default: () => ({}),
     },
   });
+  console.log(props.item);
 </script>
