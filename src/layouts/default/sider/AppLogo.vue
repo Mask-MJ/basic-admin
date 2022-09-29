@@ -11,15 +11,14 @@
 
 <style lang="less" scoped>
   .anticon {
-    // display: flex;
-    // align-items: center;
-    // padding-left: 7px;
-    // cursor: pointer;
-    // transition: all 0.2s ease;
-    // height: 48px;
-    // padding: 10px 4px 10px 10px;
-    // color: #fff;
-    // font-weight: 700;
-    // font-size: 16px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    height: 48px;
+    padding: 10px 4px 10px 10px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
   }
 </style>
