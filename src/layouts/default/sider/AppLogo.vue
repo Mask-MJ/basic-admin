@@ -1,16 +1,19 @@
 <template>
-  <div class="anticon" @click="goHome">
-    <img class="w-8 h-8" src="../../../assets/images/logo.png" />
-    <div class="ml-2 truncate md:opacity-100"> NGEVmate </div>
+  <div class="ng-anticon" @click="goHome">
+    <img class="w-8 h-8 ml-1" src="../../../assets/images/logo.png" />
+    <div v-if="!props.collapsed" class="ml-2 truncate md:opacity-100"> NGEVmate </div>
   </div>
 </template>
 
 <script setup lang="ts">
   const goHome = () => {};
+  const props = defineProps({
+    collapsed: { type: Boolean, default: false },
+  });
 </script>
 
 <style lang="less" scoped>
-  .anticon {
+  .ng-anticon {
     display: flex;
     align-items: center;
     cursor: pointer;

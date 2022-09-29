@@ -2,7 +2,7 @@
   <a-layout class="h-screen">
     <LayoutSideBar />
     <a-layout>
-      <a-layout-header>Header</a-layout-header>
+      <LayoutHeader />
       <a-layout-content>Content</a-layout-content>
     </a-layout>
   </a-layout>
@@ -10,6 +10,5 @@
 
 <script setup lang="ts">
   import LayoutSideBar from './sider/index.vue';
+  import LayoutHeader from './header/index.vue';
 </script>
-
-<style scoped></style>
