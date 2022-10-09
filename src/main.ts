@@ -8,6 +8,7 @@ import { setupStore } from '/@/store';
 import { setupRouter, router } from '/@/router';
 import { setupRouterGuard } from '/@/router/guard';
 import { initAppConfigStore } from './logics/initAppConfig';
+import { setupGlobDirectives } from '/@/directives';
 
 const app = createApp(App);
 // 配置 store
@@ -18,4 +19,6 @@ initAppConfigStore();
 setupRouter(app);
 // 路由守卫
 setupRouterGuard(router);
+// 注册全局指令
+setupGlobDirectives(app);
 app.mount('#app');
