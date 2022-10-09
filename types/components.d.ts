@@ -7,16 +7,31 @@ export {};
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AAvatar: typeof import('ant-design-vue/es')['Avatar'];
+    ABadge: typeof import('ant-design-vue/es')['Badge'];
     ABreadcrumb: typeof import('ant-design-vue/es')['Breadcrumb'];
     AButton: typeof import('ant-design-vue/es')['Button'];
+    ADropdown: typeof import('ant-design-vue/es')['Dropdown'];
     ALayout: typeof import('ant-design-vue/es')['Layout'];
     ALayoutContent: typeof import('ant-design-vue/es')['LayoutContent'];
     ALayoutHeader: typeof import('ant-design-vue/es')['LayoutHeader'];
     ALayoutSider: typeof import('ant-design-vue/es')['LayoutSider'];
+    AList: typeof import('ant-design-vue/es')['List'];
+    AListItem: typeof import('ant-design-vue/es')['ListItem'];
+    AListItemMeta: typeof import('ant-design-vue/es')['ListItemMeta'];
     AMenu: typeof import('ant-design-vue/es')['Menu'];
+    AMenuDivider: typeof import('ant-design-vue/es')['MenuDivider'];
     AMenuItem: typeof import('ant-design-vue/es')['MenuItem'];
+    APopconfirm: typeof import('ant-design-vue/es')['Popconfirm'];
+    APopover: typeof import('ant-design-vue/es')['Popover'];
     ASubMenu: typeof import('ant-design-vue/es')['SubMenu'];
+    ATabPane: typeof import('ant-design-vue/es')['TabPane'];
+    ATabs: typeof import('ant-design-vue/es')['Tabs'];
+    ATag: typeof import('ant-design-vue/es')['Tag'];
+    ATypographyParagraph: typeof import('ant-design-vue/es')['TypographyParagraph'];
+    Dropdown: typeof import('./../src/components/Dropdown/src/Dropdown.vue')['default'];
     Icon: typeof import('./../src/components/Icon/src/Icon.vue')['default'];
+    Loading: typeof import('./../src/components/Loading/src/Loading.vue')['default'];
     RouterLink: typeof import('vue-router')['RouterLink'];
     RouterView: typeof import('vue-router')['RouterView'];
     SvgIcon: typeof import('./../src/components/Icon/src/SvgIcon.vue')['default'];
