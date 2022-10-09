@@ -11,6 +11,7 @@ export interface UserInfo {
 export interface UserState {
   userInfo: Nullable<UserInfo>;
   token?: string;
+  lastUpdateTime: number;
 }
 
 export interface BeforeMiniState {

@@ -46,6 +46,11 @@ export const useRedo = (_router?: Router) => {
         params['_redirect_type'] = 'path';
         params['path'] = fullPath;
       }
+      // if (Object.keys(params).length > 0) {
+      //   _router?.push({ name, params: { _redirect_type: 'name', path: String(name) } });
+      // } else {
+      //   _router?.push({ name, params: { _redirect_type: 'path', path: fullPath } });
+      // }
       replace({ name: REDIRECT_NAME, params, query }).then(() => resolve(true));
     });
   }

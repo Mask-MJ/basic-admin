@@ -90,7 +90,6 @@ const transform: AxiosTransform = {
       joinTime = true,
       urlPrefix = '',
     } = options;
-    console.log(apiUrl);
     if (joinPrefix) {
       config.url = `${urlPrefix}${config.url}`;
     }
@@ -98,7 +97,6 @@ const transform: AxiosTransform = {
     if (apiUrl && isString(apiUrl)) {
       config.url = `${apiUrl}${config.url}`;
     }
-    console.log(config.url);
     const params = config.params || {};
     const data = config.data || false;
     formatDate && data && !isString(data) && formatRequestDate(data);

@@ -3,7 +3,9 @@
     <LayoutSideBar />
     <a-layout>
       <LayoutHeader />
-      <a-layout-content>Content</a-layout-content>
+      <a-layout-content>
+        <Content />
+      </a-layout-content>
     </a-layout>
   </a-layout>
 </template>
@@ -11,4 +13,5 @@
 <script setup lang="ts">
   import LayoutSideBar from './sider/index.vue';
   import LayoutHeader from './header/index.vue';
+  import Content from './content/index.vue';
 </script>

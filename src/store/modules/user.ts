@@ -14,12 +14,10 @@ import { doLogout, getUserInfo, loginApi } from '/@/api/basic/user';
 export const useUserStore = defineStore({
   id: 'app-user',
   state: (): UserState => ({
-    userInfo: {
-      nickName: '',
-      avatar: '',
-      userName: '',
-    },
+    userInfo: null,
     token: undefined,
+    // Last fetch time
+    lastUpdateTime: 0,
   }),
   getters: {
     getUserInfo(): UserInfo {
@@ -28,6 +26,9 @@ export const useUserStore = defineStore({
     getToken(): string {
       return this.token || getAuthCache<string>(TOKEN_KEY);
     },
+    getLastUpdateTime(): number {
+      return this.lastUpdateTime;
+    },
   },
   actions: {
     setToken(info: string | undefined) {
@@ -35,8 +36,8 @@ export const useUserStore = defineStore({
       setAuthCache(TOKEN_KEY, info);
     },
     setUserInfo(info) {
-      this.userInfo = info.user;
-      setAuthCache(USER_INFO_KEY, info.user);
+      this.userInfo = info;
+      setAuthCache(USER_INFO_KEY, info);
     },
     resetState() {
       this.userInfo = null;

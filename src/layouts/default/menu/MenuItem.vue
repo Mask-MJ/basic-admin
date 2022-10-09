@@ -16,11 +16,10 @@
   import type { PropType } from 'vue';
   import type { Menu } from '/@/router/types';
 
-  const props = defineProps({
+  defineProps({
     item: {
       type: Object as PropType<Menu>,
-      default: () => ({}),
+      default: () => {},
     },
   });
-  console.log(props.item);
 </script>

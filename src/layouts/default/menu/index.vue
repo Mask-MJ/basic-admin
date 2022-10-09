@@ -21,8 +21,10 @@
 <script setup lang="ts">
   import type { MenuState } from './types';
   import { usePermissionStore } from '/@/store/modules/permission';
+  import { useGo } from '/@/hooks/web/usePage';
   import MenuItem from './MenuItem.vue';
 
+  const go = useGo();
   const permissionStore = usePermissionStore();
   const collapsed = ref<boolean>(false);
   const menuState = reactive<MenuState>({
@@ -40,6 +42,7 @@
   });
 
   const change = (e) => {
+    go(e.key);
     console.log(e);
   };
 

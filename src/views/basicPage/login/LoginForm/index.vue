@@ -102,7 +102,6 @@
 
   const onSubmit = async (value) => {
     const userInfo = await userStore.login({ uuid: uuid.value, ...value });
-    console.log(userInfo);
     if (userInfo) {
       notification.success({
         message: '登录成功',

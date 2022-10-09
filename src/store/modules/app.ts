@@ -1,5 +1,11 @@
 import type { BeforeMiniState } from '/@/store/types';
-import type { ProjectConfig, HeaderSetting, MenuSetting, MultiTabsSetting } from '/#/config';
+import type {
+  ProjectConfig,
+  HeaderSetting,
+  MenuSetting,
+  MultiTabsSetting,
+  TransitionSetting,
+} from '/#/config';
 
 import { defineStore } from 'pinia';
 import { store } from '/@/store';
@@ -42,6 +48,9 @@ export const useAppStore = defineStore({
     },
     getMultiTabsSetting(): MultiTabsSetting {
       return this.getProjectConfig.multiTabsSetting;
+    },
+    getTransitionSetting(): TransitionSetting {
+      return this.getProjectConfig.transitionSetting;
     },
   },
   actions: {

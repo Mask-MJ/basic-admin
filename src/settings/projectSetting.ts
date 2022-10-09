@@ -80,6 +80,23 @@ const setting: ProjectConfig = {
     showFold: true,
   },
 
+  // Transition Setting
+  transitionSetting: {
+    //  Whether to open the page switching animation
+    // The disabled state will also disable pageLoading
+    enable: true,
+
+    // Route basic switching animation
+    basicTransition: 'fade-slide',
+
+    // Whether to open page switching loading
+    // Only open when enable=true
+    openPageLoading: true,
+
+    // Whether to open the top progress bar
+    openNProgress: false,
+  },
+
   // Whether to enable KeepAlive cache is best to close during development, otherwise the cache needs to be cleared every time
   openKeepAlive: true,
 

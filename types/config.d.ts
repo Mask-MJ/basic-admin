@@ -21,6 +21,7 @@ export interface ProjectConfig {
   showBreadCrumb: boolean;
   // Whether to open back to top
   useOpenBackTop: boolean;
+  transitionSetting: TransitionSetting;
 }
 
 // 头部导航栏设置
