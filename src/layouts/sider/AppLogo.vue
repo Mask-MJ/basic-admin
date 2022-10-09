@@ -1,6 +1,6 @@
 <template>
   <div class="ng-anticon" @click="goHome">
-    <img class="w-8 h-8 ml-1" src="../../../assets/images/logo.png" />
+    <img class="w-8 h-8 ml-1" src="../../assets/images/logo.png" />
     <div v-if="!props.collapsed" class="ml-2 truncate md:opacity-100"> NGEVmate </div>
   </div>
 </template>
