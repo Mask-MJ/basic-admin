@@ -28,3 +28,8 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+# Types
+types/auto-imports.d.ts
+types/components.d.ts
+types/typed-router.d.ts
