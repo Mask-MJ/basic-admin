@@ -1,5 +1,4 @@
-import type { CreateAxiosOptions } from './axiosTransform'
-import type { RequestOptions, Result } from './types'
+import type { CreateAxiosOptions } from './transform'
 import type {
   AxiosError,
   AxiosInstance,
@@ -7,12 +6,11 @@ import type {
   AxiosResponse,
   InternalAxiosRequestConfig
 } from 'axios'
-
 import axios from 'axios'
 import { cloneDeep, isFunction } from 'lodash-es'
-import qs from 'qs'
-
 import { ContentTypeEnum, RequestMethodEnum } from './enum'
+import qs from 'qs'
+import type { RequestOptions, Result } from './types'
 
 export class Request {
   private axiosInstance: AxiosInstance
@@ -24,20 +22,12 @@ export class Request {
     this.setupInterceptors()
   }
 
-  private createAxios(config: CreateAxiosOptions): void {
-    this.axiosInstance = axios.create(config)
-  }
-  private getTransform() {
-    const { transform } = this.options
-    return transform
-  }
-
   getAxios(): AxiosInstance {
     return this.axiosInstance
   }
   configAxios(config: CreateAxiosOptions) {
     if (!this.axiosInstance) return
-    this.createAxios(config)
+    this.axiosInstance = axios.create(config)
   }
   setHeader(headers: any): void {
     if (!this.axiosInstance) return
@@ -47,7 +37,7 @@ export class Request {
    * @description: 拦截器配置
    */
   private setupInterceptors() {
-    const transform = this.getTransform()
+    const transform = this.options.transform
     if (!transform) return
 
     const {
@@ -58,39 +48,32 @@ export class Request {
     } = transform
 
     const controller = new AbortController()
-
     // Request interceptor configuration processing
     this.axiosInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-      if (requestInterceptors && isFunction(requestInterceptors))
+      if (requestInterceptors && isFunction(requestInterceptors)) {
         config = requestInterceptors(config, this.options)
-
+      }
       return config
-    }, undefined)
-
+    })
     // Request interceptor error capture
-    requestInterceptorsCatch &&
-      isFunction(requestInterceptorsCatch) &&
+    isFunction(requestInterceptorsCatch) &&
       this.axiosInstance.interceptors.request.use(undefined, requestInterceptorsCatch)
-
     // Response result interceptor processing
     this.axiosInstance.interceptors.response.use((res: AxiosResponse<any>) => {
       res && controller.abort()
       if (responseInterceptors && isFunction(responseInterceptors)) res = responseInterceptors(res)
       return res
-    }, undefined)
-
+    })
     // Response result interceptor error capture
-    responseInterceptorsCatch &&
-      isFunction(responseInterceptorsCatch) &&
+    isFunction(responseInterceptorsCatch) &&
       this.axiosInstance.interceptors.response.use(undefined, (error) => {
         return responseInterceptorsCatch(error)
       })
   }
-
   // support form-data
   supportFormData(config: AxiosRequestConfig) {
     const headers = config.headers || this.options.headers
-    const contentType = headers?.['Content-Type'] || headers?.['content-type']
+    const contentType = headers?.['Content-Type']
 
     if (
       contentType !== ContentTypeEnum.FORM_URLENCODED ||
@@ -99,19 +82,14 @@ export class Request {
     ) {
       return config
     }
-
     return {
       ...config,
       data: qs.stringify(config.data, { arrayFormat: 'brackets' })
     }
   }
-
   request<T = any>(config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
     let conf: CreateAxiosOptions = cloneDeep(config)
-    const transform = this.getTransform()
-
-    const { requestOptions } = this.options
-
+    const { requestOptions, transform } = this.options
     const opt: RequestOptions = Object.assign({}, requestOptions, options)
 
     const { beforeRequestHook, requestCatchHook, transformRequestHook } = transform || {}

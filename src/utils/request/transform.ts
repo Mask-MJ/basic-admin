@@ -1,22 +1,16 @@
-/**
- * Data processing class, can be configured according to the project
- */
 import type { RequestOptions, Result } from './types'
 import type { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
+
+declare module 'axios' {
+  export interface InternalAxiosRequestConfig {
+    requestOptions?: RequestOptions
+  }
+}
 
 export interface CreateAxiosOptions extends AxiosRequestConfig {
   authenticationScheme?: string
   transform?: AxiosTransform
   requestOptions?: RequestOptions
-}
-
-declare module 'axios' {
-  export interface AxiosRequestConfig {
-    isChecked?: boolean
-  }
-  export interface InternalAxiosRequestConfig {
-    requestOptions?: RequestOptions
-  }
 }
 
 export abstract class AxiosTransform {

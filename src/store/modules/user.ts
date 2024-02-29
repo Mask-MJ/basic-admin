@@ -88,7 +88,7 @@ export const useUserStore = defineStore('user-store', {
             label: () =>
               node.parentId === 0
                 ? h('span', node.name)
-                : h(RouterLink, { to: { path: node.path } }, { default: () => node.name }),
+                : h(RouterLink, { to: node.path }, { default: () => node.name }),
             icon: () => h('i', { class: node.icon }),
             children: node.parentId === 0 ? [] : null,
             sort: node.sort

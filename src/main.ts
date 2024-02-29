@@ -7,9 +7,12 @@ import App from './App.vue'
 import { setupStore } from './store'
 import { setupI18n } from './locales'
 import { setupRouter } from './router'
+import { createHead } from '@unhead/vue'
 
 const app = createApp(App)
+const head = createHead()
 
+app.use(head)
 // 配置 store
 setupStore(app)
 // 多语言

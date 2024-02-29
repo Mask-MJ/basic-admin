@@ -1,4 +1,4 @@
-import type { AxiosTransform, CreateAxiosOptions } from './axiosTransform'
+import type { AxiosTransform, CreateAxiosOptions } from './transform'
 import type { RequestOptions, Result, ResultData } from './types'
 import type { AxiosResponse } from 'axios'
 
@@ -8,6 +8,9 @@ import { clone, isString, merge } from 'lodash-es'
 import { ContentTypeEnum, RequestMethodEnum, ResultEnum } from './enum'
 import { formatRequestDate, joinTimestamp } from './helper'
 import { Request } from './request'
+import { getAppEnvConfig } from '@/utils/env'
+
+const { VITE_GLOB_API_URL_PREFIX } = getAppEnvConfig()
 
 export function setObjToUrlParams(baseUrl: string, obj: any): string {
   let parameters = ''
@@ -143,7 +146,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
           // 格式化提交参数时间
           formatDate: true,
           // 接口拼接地址头
-          urlPrefix: '/api',
+          urlPrefix: VITE_GLOB_API_URL_PREFIX,
           // 是否携带token
           withToken: true,
           // 是否加入时间戳
