@@ -52,6 +52,9 @@ devDependencies:
   '@commitlint/config-conventional':
     specifier: ^19.0.0
     version: 19.0.0
+  '@iconify-json/ant-design':
+    specifier: ^1.1.15
+    version: 1.1.15
   '@iconify-json/line-md':
     specifier: ^1.1.36
     version: 1.1.36
@@ -930,6 +933,12 @@ packages:
 
   /@humanwhocodes/object-schema@2.0.2:
     resolution: {integrity: sha512-6EwiSjwWYP7pTckG6I5eyFANjPhmPjUX9JRLUSfNPC7FX7zK9gyZAfUEaECL6ALTpGX5AjnBq3C9XmVWPitNpw==}
+    dev: true
+
+  /@iconify-json/ant-design@1.1.15:
+    resolution: {integrity: sha512-E8XLyDo2HWVeVT8ViNTxF2+0Vgcox8FC73G4v64AM+lvlWpERcY90g7jXoBOeykl1pQCf1awkQUwjkynZ8Xb7A==}
+    dependencies:
+      '@iconify/types': 2.0.0
     dev: true
 
   /@iconify-json/line-md@1.1.36:
