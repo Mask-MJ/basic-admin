@@ -19,6 +19,9 @@ header:
   themeDark: Dark
   refresh: Refresh
 login:
+  passwordType: Password login
+  accountPlaceholder: Please enter account
+  passwordPlaceholder: Please enter password
   loginSuccessTitle: Login successful
   loginSuccessDesc: Welcome back
 components:

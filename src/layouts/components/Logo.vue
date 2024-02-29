@@ -10,7 +10,7 @@ const { t } = useI18n()
     :to="PageEnum.BASE_HOME"
     class="flex-center w-full whitespace-nowrap overflow-hidden border-b-1 border-coolgray-200"
   >
-    <n-image width="40" src="/logo.svg" />
+    <img src="@/assets/images/logo.svg" width="40" height="40" />
     <h2
       v-show="showTitle"
       class="pl-8px text-20px font-bold text-primary transition duration-300 ease-in-out"
@@ -21,4 +21,3 @@ const { t } = useI18n()
 </template>
 
 <style scoped></style>
-@/settings/enums

@@ -14,6 +14,7 @@ import Unocss from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import { defineConfig, loadEnv } from 'vite'
 import mkcert from 'vite-plugin-mkcert'
+import glsl from 'vite-plugin-glsl'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -46,6 +47,7 @@ export default defineConfig(({ mode }) => {
         runtimeOnly: true,
         include: [path.resolve(process.cwd(), 'src/locales/lang/**')]
       }),
+      glsl(),
       Unocss(),
       Layouts(),
       AutoImport({

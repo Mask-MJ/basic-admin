@@ -1,23 +1,15 @@
 <script setup lang="ts">
 import type { FormInst } from 'naive-ui'
-
-import { mixinColor } from '@/utils'
+import Earth from './Earth/index.vue'
 
 const { t } = useI18n()
 const userStore = useUserStore()
-const themeStore = useThemeStore()
 
 const formRef = ref<HTMLElement & FormInst>()
 const rememberMe = ref(false)
 const model = reactive({
   account: 'admin',
   password: '123456'
-})
-
-const bgColor = computed(() => {
-  const COLOR_WHITE = '#ffffff'
-  const ratio = themeStore.darkMode ? 0.5 : 0.2
-  return mixinColor(COLOR_WHITE, themeStore.themeColor, ratio)
 })
 
 const handleSubmit = async () => {
@@ -27,66 +19,71 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <div class="wh-full flex-center" :style="{ backgroundColor: bgColor }">
-    <n-card :bordered="false" size="large" class="z-4 !w-auto rounded-20px shadow-sm">
-      <div class="w-300px sm:w-360px">
-        <header class="flex-y-center justify-between">
-          <n-image width="40" src="/logo.svg" />
-          <n-gradient-text type="primary" :size="28">
-            {{ t('app.name') }}
-          </n-gradient-text>
-        </header>
-        <main class="pt-24px">
-          <h3 class="text-18px text-primary font-medium">
-            {{ t('login.passwordType') }}
-          </h3>
-          <div class="pt-24px">
-            <n-form
-              ref="formRef"
-              :model="model"
-              :rules="{ password: [{ required: true, message: t('login.passwordPlaceholder') }] }"
-              size="large"
-              :show-label="false"
-            >
-              <n-form-item path="account">
-                <n-input
-                  v-model:value="model.account"
-                  :placeholder="t('login.accountPlaceholder')"
-                />
-              </n-form-item>
-              <n-form-item path="password">
-                <n-input
-                  v-model:value="model.password"
-                  type="password"
-                  show-password-on="click"
-                  :placeholder="t('login.passwordPlaceholder')"
-                />
-              </n-form-item>
-              <n-space :vertical="true" :size="24">
-                <div class="flex-y-center justify-between">
-                  <n-checkbox v-model:checked="rememberMe">
-                    {{ t('login.remember') }}
-                  </n-checkbox>
-                </div>
-                <n-button
-                  type="primary"
-                  size="large"
-                  :block="true"
-                  :round="true"
-                  @click="handleSubmit"
-                >
-                  {{ t('login.submit') }}
-                </n-button>
-              </n-space>
-            </n-form>
-          </div>
-        </main>
-      </div>
-    </n-card>
+  <div class="wh-full relative">
+    <Earth />
+    <div class="loginForm">
+      <header class="text-center">
+        <n-gradient-text type="primary" :size="28">
+          {{ t('app.name') }}
+        </n-gradient-text>
+      </header>
+      <main class="pt-24px">
+        <h3 class="text-18px text-primary font-medium">
+          {{ t('login.passwordType') }}
+        </h3>
+        <div class="pt-24px">
+          <n-form
+            ref="formRef"
+            :model="model"
+            :rules="{ password: [{ required: true, message: t('login.passwordPlaceholder') }] }"
+            size="large"
+            :show-label="false"
+          >
+            <n-form-item path="account">
+              <n-input
+                class="bg-#fff9"
+                v-model:value="model.account"
+                :placeholder="t('login.accountPlaceholder')"
+              />
+            </n-form-item>
+            <n-form-item path="password">
+              <n-input
+                class="bg-#fff9"
+                v-model:value="model.password"
+                type="password"
+                show-password-on="click"
+                :placeholder="t('login.passwordPlaceholder')"
+              />
+            </n-form-item>
+            <n-space :vertical="true" :size="24">
+              <div class="flex-y-center justify-between">
+                <n-checkbox v-model:checked="rememberMe">
+                  {{ t('login.remember') }}
+                </n-checkbox>
+              </div>
+              <n-button type="primary" size="large" :block="true" @click="handleSubmit">
+                {{ t('login.submit') }}
+              </n-button>
+            </n-space>
+          </n-form>
+        </div>
+      </main>
+    </div>
   </div>
 </template>
 
-<style lang="" scoped></style>
+<style lang="scss" scoped>
+.loginForm {
+  position: absolute;
+  top: calc(50% - 250px);
+  right: 10%;
+  background-color: rgba($color: #fff, $alpha: 0.8);
+  width: 350px;
+  height: 450px;
+  border-radius: 24px;
+  padding: 32px 24px;
+}
+</style>
 
 <route lang="yaml">
 meta:

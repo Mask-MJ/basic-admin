@@ -20,7 +20,7 @@ header:
   refresh: 重新加载
 login:
   passwordType: 密码登录
-  usernamePlaceholder: 请输入用户名
+  accountPlaceholder: 请输入账号
   passwordPlaceholder: 请输入密码
   remember: 记住我
   submit: 登录
