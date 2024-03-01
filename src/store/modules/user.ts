@@ -99,7 +99,7 @@ export const useUserStore = defineStore('user-store', {
             {
               id: 111,
               name: 'WorkTable',
-              path: 'workTable',
+              path: '/dashboard/workTable',
               redirect: '',
               meta: {
                 title: '个人工作台',
@@ -129,7 +129,7 @@ export const useUserStore = defineStore('user-store', {
             {
               id: 7,
               name: 'User',
-              path: 'user',
+              path: '/system/user',
               redirect: '',
               meta: {
                 title: '用户管理',
@@ -143,7 +143,7 @@ export const useUserStore = defineStore('user-store', {
             {
               id: 8,
               name: 'Role',
-              path: 'role',
+              path: '/system/role',
               redirect: '',
               meta: {
                 title: '角色管理',
@@ -157,7 +157,7 @@ export const useUserStore = defineStore('user-store', {
             {
               id: 11,
               name: 'Menu',
-              path: 'menu',
+              path: '/system/menu',
               redirect: '',
               meta: {
                 title: '菜单管理',
@@ -171,7 +171,7 @@ export const useUserStore = defineStore('user-store', {
             {
               id: 11,
               name: 'Dept',
-              path: 'dept',
+              path: '/system/dept',
               redirect: '',
               meta: {
                 title: '部门管理',
@@ -185,7 +185,7 @@ export const useUserStore = defineStore('user-store', {
             {
               id: 10,
               name: 'Dict',
-              path: 'dict',
+              path: '/system/dict',
               redirect: '',
               meta: {
                 title: '字典管理',
@@ -199,7 +199,7 @@ export const useUserStore = defineStore('user-store', {
             {
               id: 10,
               name: 'Notice',
-              path: 'notice',
+              path: '/system/notice',
               redirect: '',
               meta: {
                 title: '通知公告',
@@ -213,7 +213,7 @@ export const useUserStore = defineStore('user-store', {
             {
               id: 120,
               name: 'Setting',
-              path: 'setting',
+              path: '/system/setting',
               redirect: '',
               meta: {
                 title: '个人中心',
@@ -243,7 +243,7 @@ export const useUserStore = defineStore('user-store', {
             {
               id: 14,
               name: 'Online',
-              path: 'online',
+              path: '/monitor/online',
               redirect: '',
               meta: {
                 title: '在线用户',
@@ -257,7 +257,7 @@ export const useUserStore = defineStore('user-store', {
             {
               id: 15,
               name: 'Server',
-              path: 'server',
+              path: '/monitor/server',
               redirect: '',
               meta: {
                 title: '服务监控',
@@ -271,7 +271,7 @@ export const useUserStore = defineStore('user-store', {
             {
               id: 16,
               name: 'Log',
-              path: 'log',
+              path: '/monitor/log',
               redirect: '',
               meta: {
                 title: '日志监控',
@@ -285,7 +285,6 @@ export const useUserStore = defineStore('user-store', {
           ]
         }
       ]
-
       this.setBackendRouteList(data)
       this.isDynamicAddedRoute = true
       return data

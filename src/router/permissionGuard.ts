@@ -1,6 +1,6 @@
-import type { Router } from 'vue-router/auto'
-
+import type { Router, RouteRecordRaw } from 'vue-router/auto'
 import { PageEnum } from '@/settings/enums'
+import { flatMapDeep } from 'lodash-es'
 
 const WHITE_LIST: string[] = [PageEnum.BASE_LOGIN]
 function createPageGuard(router: Router) {
@@ -35,6 +35,8 @@ function createPermissionGuard(router: Router) {
     if (!userStore.isDynamicAddedRoute) {
       await userStore.getRoutesAction()
     }
+    if (to.path === PageEnum.BASE_HOME) return true
+
     if (to.path === PageEnum.BASE_LOGIN) return { path: PageEnum.BASE_HOME }
 
     if (to.path === '/') return { path: PageEnum.BASE_HOME }
@@ -42,8 +44,19 @@ function createPermissionGuard(router: Router) {
     if (WHITE_LIST.includes(to.path)) return true
 
     const routes = router.getRoutes()
-    if (routes.some((route) => route.name === to.name)) return true
-    return { path: '/404' }
+    // 判断是否有权限
+    const flatBackendRouteList = flatMapDeep(
+      userStore.backendRouteList,
+      (route) => [route, route.children] as RouteRecordRaw[]
+    )
+    if (routes.some((route) => route.path === to.path)) {
+      if (flatBackendRouteList.some((route) => route.path === to.path)) {
+        return true
+      } else {
+        window.$message.error('没有权限, 重定向到首页')
+        return { path: PageEnum.BASE_HOME }
+      }
+    }
   })
 }
 

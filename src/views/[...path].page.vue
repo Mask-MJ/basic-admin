@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>log</div>
+  <div>404</div>
 </template>
 
 <style lang="" scoped></style>

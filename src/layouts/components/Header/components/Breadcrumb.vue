@@ -8,16 +8,11 @@ const route = useRoute()
 const theme = useThemeStore()
 const user = useUserStore()
 
-function getTopLevelMenu(
-  path: string,
-  routes: RouteRecordRaw[],
-  parentPath?: string
-): RouteRecordRaw | undefined {
+function getTopLevelMenu(path: string, routes: RouteRecordRaw[]): RouteRecordRaw | undefined {
   return routes.find((item) => {
-    const fullPath = parentPath ? `${parentPath}/${item.path}` : item.path
-    if (fullPath === path) return true
+    if (item.path === path) return true
     if (Array.isArray(item.children)) {
-      return getTopLevelMenu(path, item.children, item.path)
+      return getTopLevelMenu(path, item.children)
     }
     return false
   })
@@ -45,10 +40,10 @@ const breadcrumbs = computed(() => {
   if (topLevelMenu) {
     if (topLevelMenu.children) {
       topLevelMenu.children = topLevelMenu.children.filter((item) => !item.meta?.hidden)
-      const currentRoute = topLevelMenu.children.find(
-        (item) => `${topLevelMenu.path}/${item.path}` === route.path
-      )
-      return generateBreadcrumbs([topLevelMenu, currentRoute!])
+      const currentRoute = topLevelMenu.children.find((item) => item.path === route.path)
+      if (currentRoute) {
+        return generateBreadcrumbs([topLevelMenu, currentRoute])
+      }
     }
     return generateBreadcrumbs([topLevelMenu!])
   }
