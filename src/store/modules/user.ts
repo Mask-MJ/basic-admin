@@ -1,14 +1,14 @@
 import type { MenuOption } from 'naive-ui'
 import type { RouteRecordRaw } from 'vue-router/auto'
-import type { LoginParams, UserInfo } from '@/api/user.type'
+import type { LoginParams, UserInfo } from '@/api/system/user.type'
 import type { RemovableRef } from '@vueuse/core'
 
-import { RouterLink } from 'vue-router/auto'
-import { getMenusList } from '@/api/role'
-import { getUserInfo, login } from '@/api/user'
+import { getMenusList } from '@/api/system/role'
+import { getUserInfo, login } from '@/api/system/user'
 import { router } from '@/router'
 import { CACHE_ROUTES, PageEnum, TOKEN_KEY, USER_INFO_KEY } from '@/settings/enums'
 import { defineStore } from 'pinia'
+import { transformersMenus } from '../helper/user-helper'
 
 interface UserState {
   /** Token */
@@ -40,6 +40,10 @@ export const useUserStore = defineStore('user-store', {
     },
     getUserInfo(): UserInfo {
       return this.userInfo || ({} as UserInfo)
+    },
+    getMenusList(): MenuOption[] {
+      // const locale = useStorage('LANGUAGE__', 'zh-CN')
+      return transformersMenus(this.backendRouteList)
     }
   },
   actions: {
@@ -76,57 +80,215 @@ export const useUserStore = defineStore('user-store', {
     },
     /** 获取路由 */
     async getRoutesAction() {
-      const data = await getMenusList()
-
-      const map: any = {}
-      const tree = data
-        .filter((item) => item.hidden === false)
-        .sort((a, b) => a.id - b.id)
-        .reduce((acc, node) => {
-          map[node.id] = {
-            key: node.path,
-            label: () =>
-              node.parentId === 0
-                ? h('span', node.name)
-                : h(RouterLink, { to: node.path }, { default: () => node.name }),
-            icon: () => h('i', { class: node.icon }),
-            children: node.parentId === 0 ? [] : null,
-            sort: node.sort
-          }
-          if (node.parentId === 0) {
-            acc.push(map[node.id])
-          } else {
-            map[node.parentId]?.children.push(map[node.id])
-          }
-
-          return acc
-        }, [] as MenuOption[])
-        .map((item) => {
-          if (!item.children?.length) {
-            item.children = undefined
-          }
-          return item
-        })
-      this.setMenus(tree)
-
-      const routes = data.map((item) => {
-        return {
-          path: item.path,
-          name: item.name,
+      let data = await getMenusList()
+      data = [
+        {
+          id: 1,
+          name: 'Dashboard',
+          path: '/dashboard',
           redirect: '',
           meta: {
-            title: item.name,
-            icon: item.icon,
-            sort: item.sort,
+            title: '首页',
+            icon: 'i-ant-design:appstore-outlined',
+            sort: 1,
             hidden: false,
-            id: item.id,
-            parentId: item.parentId
-          }
+            parentId: 0,
+            status: 1
+          },
+          children: [
+            {
+              id: 111,
+              name: 'WorkTable',
+              path: 'workTable',
+              redirect: '',
+              meta: {
+                title: '个人工作台',
+                icon: 'i-ant-design:laptop-outlined',
+                sort: 1,
+                hidden: false,
+                parentId: 1,
+                status: 1
+              }
+            }
+          ]
+        },
+        {
+          id: 3,
+          name: 'System',
+          path: '/system',
+          redirect: '/system/user',
+          meta: {
+            title: '系统设置',
+            icon: 'i-ant-design:setting-outlined',
+            hidden: false,
+            parentId: 0,
+            status: 1,
+            sort: 3
+          },
+          children: [
+            {
+              id: 7,
+              name: 'User',
+              path: 'user',
+              redirect: '',
+              meta: {
+                title: '用户管理',
+                icon: 'i-ant-design:user-outlined',
+                hidden: false,
+                parentId: 3,
+                status: 1,
+                sort: 1
+              }
+            },
+            {
+              id: 8,
+              name: 'Role',
+              path: 'role',
+              redirect: '',
+              meta: {
+                title: '角色管理',
+                icon: 'i-ant-design:usergroup-add-outlined',
+                hidden: false,
+                parentId: 3,
+                status: 1,
+                sort: 2
+              }
+            },
+            {
+              id: 11,
+              name: 'Menu',
+              path: 'menu',
+              redirect: '',
+              meta: {
+                title: '菜单管理',
+                icon: 'i-ant-design:menu-outlined',
+                hidden: false,
+                parentId: 3,
+                status: 1,
+                sort: 3
+              }
+            },
+            {
+              id: 11,
+              name: 'Dept',
+              path: 'dept',
+              redirect: '',
+              meta: {
+                title: '部门管理',
+                icon: 'i-ant-design:gold-twotone',
+                hidden: false,
+                parentId: 3,
+                status: 1,
+                sort: 3
+              }
+            },
+            {
+              id: 10,
+              name: 'Dict',
+              path: 'dict',
+              redirect: '',
+              meta: {
+                title: '字典管理',
+                icon: 'i-ant-design:medicine-box-outlined',
+                hidden: false,
+                parentId: 3,
+                status: 1,
+                sort: 3
+              }
+            },
+            {
+              id: 10,
+              name: 'Notice',
+              path: 'notice',
+              redirect: '',
+              meta: {
+                title: '通知公告',
+                icon: 'i-ant-design:message-outlined',
+                hidden: false,
+                parentId: 3,
+                status: 1,
+                sort: 3
+              }
+            },
+            {
+              id: 120,
+              name: 'Setting',
+              path: 'setting',
+              redirect: '',
+              meta: {
+                title: '个人中心',
+                icon: 'i-ant-design:radius-setting-outlined',
+                hidden: false,
+                parentId: 3,
+                status: 1,
+                sort: 3
+              }
+            }
+          ]
+        },
+        {
+          id: 66,
+          name: 'Monitor',
+          path: '/monitor',
+          redirect: '',
+          meta: {
+            title: '系统监控',
+            icon: 'i-ant-design:android-filled',
+            hidden: false,
+            parentId: 0,
+            status: 1,
+            sort: 2
+          },
+          children: [
+            {
+              id: 14,
+              name: 'Online',
+              path: 'online',
+              redirect: '',
+              meta: {
+                title: '在线用户',
+                icon: 'i-ant-design:aim-outlined',
+                hidden: false,
+                parentId: 2,
+                status: 1,
+                sort: 1
+              }
+            },
+            {
+              id: 15,
+              name: 'Server',
+              path: 'server',
+              redirect: '',
+              meta: {
+                title: '服务监控',
+                icon: 'i-ant-design:cloud-outlined',
+                hidden: false,
+                parentId: 2,
+                status: 1,
+                sort: 2
+              }
+            },
+            {
+              id: 16,
+              name: 'Log',
+              path: 'log',
+              redirect: '',
+              meta: {
+                title: '日志监控',
+                icon: 'i-ant-design:cloud-server-outlined',
+                hidden: false,
+                parentId: 2,
+                status: 1,
+                sort: 3
+              }
+            }
+          ]
         }
-      })
-      this.setBackendRouteList(routes)
+      ]
+
+      this.setBackendRouteList(data)
       this.isDynamicAddedRoute = true
-      return routes
+      return data
     },
     /** 设置路由 */
     setBackendRouteList(list: RouteRecordRaw[]) {

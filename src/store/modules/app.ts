@@ -1,3 +1,4 @@
+import type { RemovableRef } from '@vueuse/core'
 import { defineStore } from 'pinia'
 
 export interface AppState {
@@ -9,6 +10,8 @@ export interface AppState {
   siderCollapse: boolean
   /** vertical-mix模式下 侧边栏的固定状态 */
   mixSiderFixed: boolean
+  /** 多语言 */
+  locale: RemovableRef<string>
 }
 
 export const useAppStore = defineStore('app-store', {
@@ -16,7 +19,8 @@ export const useAppStore = defineStore('app-store', {
     reloadFlag: true,
     settingDrawerVisible: false,
     siderCollapse: false,
-    mixSiderFixed: false
+    mixSiderFixed: false,
+    locale: useStorage('LANGUAGE__', 'zh-CN')
   }),
   actions: {
     /**

@@ -8,22 +8,29 @@ const route = useRoute()
 const theme = useThemeStore()
 const user = useUserStore()
 
-function getTopLevelMenu(path: string, routes: RouteRecordRaw[]): RouteRecordRaw | undefined {
+function getTopLevelMenu(
+  path: string,
+  routes: RouteRecordRaw[],
+  parentPath?: string
+): RouteRecordRaw | undefined {
   return routes.find((item) => {
-    if (item.path === path) return true
+    const fullPath = parentPath ? `${parentPath}/${item.path}` : item.path
+    if (fullPath === path) return true
     if (Array.isArray(item.children)) {
-      return getTopLevelMenu(path, item.children)
+      return getTopLevelMenu(path, item.children, item.path)
     }
     return false
   })
 }
 
 function generateBreadcrumbs(routes: RouteRecordRaw[]): DropdownOption[] {
+  const locale = useAppStore().locale
   return routes.map((route) => {
+    const label = locale === 'zh-CN' ? route.meta?.title : (route.name as string)
     const list: DropdownOption = {
-      label: route.meta!.title,
+      label,
       key: route.path,
-      icon: () => h('i', { class: `i-${route.meta!.icon}` })
+      icon: () => h('i', { class: route.meta!.icon })
     }
     if (route.children && route.children.length > 0) {
       list.children = generateBreadcrumbs(route.children)
@@ -38,7 +45,9 @@ const breadcrumbs = computed(() => {
   if (topLevelMenu) {
     if (topLevelMenu.children) {
       topLevelMenu.children = topLevelMenu.children.filter((item) => !item.meta?.hidden)
-      const currentRoute = topLevelMenu.children.find((item) => item.path === route.path)
+      const currentRoute = topLevelMenu.children.find(
+        (item) => `${topLevelMenu.path}/${item.path}` === route.path
+      )
       return generateBreadcrumbs([topLevelMenu, currentRoute!])
     }
     return generateBreadcrumbs([topLevelMenu!])
@@ -53,7 +62,7 @@ function dropdownSelect(key: string) {
 </script>
 
 <template>
-  <n-breadcrumb class="px-12px">
+  <n-breadcrumb class="px-1">
     <template v-for="breadcrumb in breadcrumbs" :key="breadcrumb.key">
       <n-breadcrumb-item>
         <n-dropdown

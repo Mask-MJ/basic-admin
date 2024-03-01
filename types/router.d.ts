@@ -3,9 +3,9 @@ import 'vue-router'
 declare module 'vue-router' {
   interface RouteMeta {
     title: string
-    icon?: string
-    hidden?: boolean
+    icon: string
+    hidden: boolean
     link?: string
-    affix?: boolean
+    parentId: number
   }
 }

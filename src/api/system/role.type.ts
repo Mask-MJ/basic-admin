@@ -23,14 +23,18 @@ export interface SearchParams {
   status: string
 }
 
-export interface MenuInfo {
+export interface Routes {
   id: number
   name: string
   path: string
-  icon: string
-  sort: number
-  parentId: number
-  hidden: boolean
-  createdAt: string
-  updatedAt: string
+  redirect: string
+  meta: {
+    title: string
+    icon: string
+    sort: number
+    hidden: boolean
+    parentId: number
+    status: number
+  }
+  children?: Routes[]
 }
