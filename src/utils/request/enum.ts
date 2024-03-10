@@ -8,7 +8,8 @@ export enum RequestMethodEnum {
 
 export enum ResultEnum {
   ERROR = 500,
-  TIMEOUT = 401
+  TIMEOUT = 401,
+  FORBIDDEN = 403
 }
 
 export enum ContentTypeEnum {

@@ -88,4 +88,5 @@ const handleSubmit = async () => {
 <route lang="yaml">
 meta:
   layout: login
+  noAuth: true
 </route>

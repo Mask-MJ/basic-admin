@@ -6,9 +6,9 @@ enum Api {
   Register = 'authentication/sign-up',
   Login = 'authentication/sign-in',
 
-  Users = 'users',
-  UserInfo = 'users/info',
-  Logout = 'users/logout'
+  Users = 'system/user',
+  UserInfo = 'system/user/info',
+  Logout = 'system/user/logout'
 }
 
 // 注册

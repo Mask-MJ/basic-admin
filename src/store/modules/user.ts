@@ -3,11 +3,12 @@ import type { RouteRecordRaw } from 'vue-router/auto'
 import type { LoginParams, UserInfo } from '@/api/system/user.type'
 import type { RemovableRef } from '@vueuse/core'
 
-import { getMenusList } from '@/api/system/role'
+import { getMenuList } from '@/api/system/role'
 import { getUserInfo, login } from '@/api/system/user'
 import { router } from '@/router'
 import { CACHE_ROUTES, PageEnum, TOKEN_KEY, USER_INFO_KEY } from '@/settings/enums'
 import { defineStore } from 'pinia'
+import { flatMapDeep } from 'lodash-es'
 import { transformersMenus } from '../helper/user-helper'
 
 interface UserState {
@@ -41,7 +42,7 @@ export const useUserStore = defineStore('user-store', {
     getUserInfo(): UserInfo {
       return this.userInfo || ({} as UserInfo)
     },
-    getMenusList(): MenuOption[] {
+    getMenuList(): MenuOption[] {
       // const locale = useStorage('LANGUAGE__', 'zh-CN')
       return transformersMenus(this.backendRouteList)
     }
@@ -78,9 +79,12 @@ export const useUserStore = defineStore('user-store', {
       this.setUserInfo()
       router.push('/login')
     },
+    async RedirectHome() {
+      router.push(PageEnum.BASE_HOME)
+    },
     /** 获取路由 */
     async getRoutesAction() {
-      let data = await getMenusList()
+      let data = await getMenuList()
       data = [
         {
           id: 1,
@@ -97,7 +101,7 @@ export const useUserStore = defineStore('user-store', {
           },
           children: [
             {
-              id: 111,
+              id: 1112,
               name: 'WorkTable',
               path: '/dashboard/workTable',
               redirect: '',
@@ -285,6 +289,16 @@ export const useUserStore = defineStore('user-store', {
           ]
         }
       ]
+      const routes = router.getRoutes()
+
+      // 把路由同步到 router 中
+      flatMapDeep(data, (route) => [route, route.children] as RouteRecordRaw[]).forEach((route) => {
+        routes.forEach((item) => {
+          if (route.path === item.path) {
+            item.meta = { ...item.meta, ...route.meta }
+          }
+        })
+      })
       this.setBackendRouteList(data)
       this.isDynamicAddedRoute = true
       return data

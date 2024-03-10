@@ -3,8 +3,8 @@ import type { CreatedRole, Routes, RoleInfo, SearchParams } from './role.type'
 import { defHttp } from '@/utils'
 
 enum Api {
-  Roles = 'roles',
-  Menus = 'menus'
+  Roles = 'system/role',
+  Menu = 'system/menu'
 }
 
 // 获取角色列表
@@ -21,4 +21,4 @@ export const updateRole = (params: Partial<RoleInfo>) =>
 export const deleteRole = (ids: number | string) => defHttp.delete({ url: `${Api.Roles}/${ids}` })
 
 // 获取菜单权限
-export const getMenusList = () => defHttp.get<Routes[]>({ url: Api.Menus })
+export const getMenuList = () => defHttp.get<Routes[]>({ url: Api.Menu })

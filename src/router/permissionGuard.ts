@@ -21,6 +21,7 @@ function createPermissionGuard(router: Router) {
 
   router.beforeEach(async (to) => {
     const token = userStore.getToken
+    const routes = router.getRoutes()
     // 没有token
     if (!token) {
       if (WHITE_LIST.includes(to.path)) return true
@@ -43,7 +44,6 @@ function createPermissionGuard(router: Router) {
 
     if (WHITE_LIST.includes(to.path)) return true
 
-    const routes = router.getRoutes()
     // 判断是否有权限
     const flatBackendRouteList = flatMapDeep(
       userStore.backendRouteList,

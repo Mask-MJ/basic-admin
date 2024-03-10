@@ -113,11 +113,15 @@ const transform: AxiosTransform = {
    * @description: 响应错误处理
    */
   responseInterceptorsCatch: (error: any) => {
+    const userStore = useUserStore()
     const { statusCode, message } = error.response.data
     if (statusCode === ResultEnum.TIMEOUT) {
-      const userStore = useUserStore()
       userStore.logout()
     }
+    // else if (statusCode === ResultEnum.FORBIDDEN) {
+    // 无权限 重定向到首页
+    // userStore.RedirectHome()
+    // }
 
     message && window.$message.error(`${statusCode}: ${message}`)
     return Promise.reject(error)
