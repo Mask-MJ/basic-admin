@@ -299,6 +299,11 @@ export const useUserStore = defineStore('user-store', {
           }
         })
       })
+      // const route = useRoute()
+      // const tabStore = useMultipleTabStore()
+      // console.log('route', route)
+      // tabStore.iniTabStore(route)
+
       this.setBackendRouteList(data)
       this.isDynamicAddedRoute = true
       return data

@@ -6,9 +6,6 @@ import TabDetail from './components/TabDetail.vue'
 const route = useRoute()
 const themeStore = useThemeStore()
 const tabStore = useMultipleTabStore()
-setTimeout(() => {
-  tabStore.iniTabStore(route)
-}, 1300)
 
 watch(
   () => route.path,

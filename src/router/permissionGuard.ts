@@ -35,6 +35,16 @@ function createPermissionGuard(router: Router) {
     }
     if (!userStore.isDynamicAddedRoute) {
       await userStore.getRoutesAction()
+      const tabStore = useMultipleTabStore()
+      const currentRoute = routes.find((route) => {
+        return route.path === to.path
+      })
+
+      tabStore.iniTabStore({
+        ...to,
+        name: to.name as any,
+        meta: { ...to.meta, ...currentRoute?.meta }
+      })
     }
     if (to.path === PageEnum.BASE_HOME) return true
 
