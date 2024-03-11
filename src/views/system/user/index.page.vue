@@ -1,17 +1,11 @@
 <script setup lang="ts">
-import type { UserInfo } from '@/api/system/user.type'
+import type { UserInfo, SearchParams } from '@/api/system/user.type'
 import type { DataTableColumns } from 'naive-ui'
 import { getUsersList } from '@/api/system/user'
-import { pickBy } from 'lodash-es'
 import Action from './Action.vue'
 import EditModal from './EditModal.vue'
 
-const formValue = ref({
-  nickname: null,
-  phoneNumber: null,
-  status: null,
-  createTime: null
-})
+const formValue = ref({} as SearchParams)
 const tableData = ref<UserInfo[]>([])
 const pagination = ref({ page: 1, pageSize: 10 })
 const columns: DataTableColumns<UserInfo> = [
@@ -47,9 +41,13 @@ const addUser = () => {
   typeModal.value = 'add'
 }
 const getData = async () => {
-  // 排除空值
-  const params = pickBy(formValue.value, (o) => Boolean(o))
-  return getUsersList({ ...params, ...pagination.value })
+  return getUsersList({ ...formValue.value, ...pagination.value })
+}
+const handleSearch = async () => {
+  tableData.value = await getData()
+}
+const handleReset = () => {
+  formValue.value = {} as SearchParams
 }
 onMounted(async () => {
   tableData.value = await getData()
@@ -61,17 +59,24 @@ onMounted(async () => {
     <n-card class="mb-4" size="small" hoverable>
       <n-form ref="formRef" inline :label-width="80" :model="formValue" label-placement="left">
         <n-grid :cols="24" :x-gap="24">
-          <n-form-item-gi :span="8" label="用户名" path="user.age">
+          <n-form-item-gi :span="8" label="用户名">
             <n-input v-model:value="formValue.nickname" placeholder="请输入用户名" />
           </n-form-item-gi>
-          <n-form-item-gi :span="8" label="手机号" path="datetimeValue">
+          <n-form-item-gi :span="8" label="手机号">
             <n-input v-model:value="formValue.phoneNumber" placeholder="请输入手机号" />
           </n-form-item-gi>
 
-          <n-form-item-gi :span="8" label="状态" path="datetimeValue">
-            <n-input v-model:value="formValue.status" placeholder="请输入手机号" />
+          <n-form-item-gi :span="8" label="状态">
+            <n-select
+              v-model:value="formValue.status"
+              placeholder="Select"
+              :options="[
+                { label: '启用', value: 1 },
+                { label: '禁用', value: 0 }
+              ]"
+            />
           </n-form-item-gi>
-          <n-form-item-gi :span="16" label="创建时间" path="datetimeValue">
+          <n-form-item-gi :span="16" label="创建时间">
             <n-date-picker
               v-model:formatted-value="formValue.createTime"
               value-format="yyyy.MM.dd HH:mm:ss"
@@ -81,8 +86,8 @@ onMounted(async () => {
           </n-form-item-gi>
           <n-form-item-gi :span="8">
             <NFlex justify="end" class="w-full">
-              <NButton type="primary"> 查询 </NButton>
-              <NButton attr-type="button"> 重置 </NButton>
+              <NButton type="primary" @click="handleSearch"> 查询 </NButton>
+              <NButton attr-type="button" @click="handleReset"> 重置 </NButton>
             </NFlex>
           </n-form-item-gi>
         </n-grid>

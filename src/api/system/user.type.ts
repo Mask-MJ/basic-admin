@@ -45,8 +45,7 @@ export interface SearchParams {
   nickname: string
   phoneNumber: string
   status: number | null
-  beginTime: string
-  endTime: string
+  createTime: string
   page: number
   pageSize: number
 }
