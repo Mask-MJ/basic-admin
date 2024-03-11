@@ -17,14 +17,19 @@ export interface LoginResult {
 
 export interface UserInfo {
   id: number
+  isAdmin: boolean
   account: string
-  nickname?: string
-  avatar?: string
-  status?: number
-  roles: Role[]
-  permissions: string[]
-  createTime: string
-  updateTime?: string
+  password: string
+  nickname: string | null
+  email: string | null
+  avatar: string | null
+  phoneNumber: string | null
+  sex: number
+  status: number
+  deptId: number | null
+  remark: string | null
+  createdAt: Date
+  updatedAt: Date
 }
 
 export interface Role {
@@ -37,6 +42,11 @@ export interface Role {
 }
 
 export interface SearchParams {
-  status: number
-  account: string
+  nickname: string
+  phoneNumber: string
+  status: number | null
+  beginTime: string
+  endTime: string
+  page: number
+  pageSize: number
 }

@@ -21,7 +21,7 @@ export const doLogout = () => defHttp.post({ url: Api.Logout })
 export const getUserInfo = () => defHttp.get<UserInfo>({ url: Api.UserInfo })
 
 // 获取用户列表
-export const getUsersList = (params?: SearchParams) =>
+export const getUsersList = (params?: Partial<SearchParams>) =>
   defHttp.get<UserInfo[]>({ url: Api.Users, params })
 // 创建用户
 export const createUser = (params: RegisterParams) => defHttp.post({ url: Api.Users, params })
