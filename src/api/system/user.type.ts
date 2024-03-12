@@ -2,7 +2,14 @@ export interface RegisterParams {
   account: string
   password: string
   nickname?: string
-  roles?: string[]
+  email: string | null
+  avatar: string | null
+  phoneNumber: string | null
+  roles: number[]
+  sex: number
+  status: number
+  deptId: number | null
+  remark: string | null
 }
 
 export interface LoginParams {
@@ -24,6 +31,7 @@ export interface UserInfo {
   email: string | null
   avatar: string | null
   phoneNumber: string | null
+  roles: number[]
   sex: number
   status: number
   deptId: number | null
@@ -45,7 +53,5 @@ export interface SearchParams {
   nickname: string
   phoneNumber: string
   status: number | null
-  createTime: string
-  page: number
-  pageSize: number
+  createTime: [number, number] | null
 }

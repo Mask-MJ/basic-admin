@@ -1,13 +1,22 @@
 <script setup lang="ts">
 import type { UserInfo, SearchParams } from '@/api/system/user.type'
-import type { DataTableColumns } from 'naive-ui'
-import { getUsersList } from '@/api/system/user'
-import Action from './Action.vue'
+import { NButton, NFlex, NPopconfirm, NPopover, type DataTableColumns } from 'naive-ui'
+import { getUsersList, deleteUser } from '@/api/system/user'
 import EditModal from './EditModal.vue'
+import ChangePasswordModal from './ChangePasswordModal.vue'
 
-const formValue = ref({} as SearchParams)
+const formValue = ref<SearchParams>({
+  nickname: '',
+  phoneNumber: '',
+  status: null,
+  createTime: null
+})
 const tableData = ref<UserInfo[]>([])
 const pagination = ref({ page: 1, pageSize: 10 })
+const showEditModal = ref(false)
+const showChangePasswordModal = ref(false)
+const rowData = ref<UserInfo>()
+
 const columns: DataTableColumns<UserInfo> = [
   { title: '账号', key: 'account', align: 'center' },
   { title: '用户名', key: 'nickname', align: 'center' },
@@ -21,36 +30,106 @@ const columns: DataTableColumns<UserInfo> = [
     align: 'center',
     width: 200,
     render(row) {
-      return h(Action, {
-        row,
-        showModal: showModal.value,
-        onShowEditModal: (e, type) => {
-          showModal.value = e
-          typeModal.value = type
+      return h(
+        NFlex,
+        { justify: 'center' },
+        {
+          default: () => [
+            h(
+              NPopover,
+              { trigger: 'hover' },
+              {
+                default: () => '编辑',
+                trigger: () =>
+                  h(
+                    NButton,
+                    {
+                      size: 'small',
+                      type: 'primary',
+                      onClick: () => {
+                        showEditModal.value = true
+                        rowData.value = row
+                      }
+                    },
+                    { default: () => h('i', { class: 'i-ant-design:edit-outlined' }) }
+                  )
+              }
+            ),
+            h(
+              NPopover,
+              { trigger: 'hover' },
+              {
+                default: () => '修改密码',
+                trigger: () =>
+                  h(
+                    NButton,
+                    {
+                      size: 'small',
+                      type: 'warning',
+                      onClick: () => {
+                        showChangePasswordModal.value = true
+                      }
+                    },
+                    { default: () => h('i', { class: 'i-ant-design:lock-outlined' }) }
+                  )
+              }
+            ),
+            h(
+              NPopover,
+              { trigger: 'hover' },
+              {
+                default: () => '删除',
+                trigger: () =>
+                  h(
+                    NPopconfirm,
+                    {
+                      onPositiveClick: async () => {
+                        await deleteUser(row.id)
+                        tableData.value = await getUsersList({
+                          ...formValue.value,
+                          ...pagination.value
+                        })
+                      }
+                    },
+                    {
+                      default: () => '确认删除该用户吗？',
+                      trigger: () =>
+                        h(
+                          NButton,
+                          { size: 'small', type: 'error' },
+                          { default: () => h('i', { class: 'i-ant-design:delete-outlined' }) }
+                        )
+                    }
+                  )
+              }
+            )
+          ]
         }
-      })
+      )
     }
   }
 ]
-const showModal = ref(false)
-const typeModal = ref('add')
-const row = ref<UserInfo>()
+
 const addUser = () => {
-  showModal.value = true
-  row.value = undefined
-  typeModal.value = 'add'
+  showEditModal.value = true
+  rowData.value = undefined
 }
-const getData = async () => {
-  return getUsersList({ ...formValue.value, ...pagination.value })
-}
+
 const handleSearch = async () => {
-  tableData.value = await getData()
+  tableData.value = await getUsersList({ ...formValue.value, ...pagination.value })
 }
-const handleReset = () => {
-  formValue.value = {} as SearchParams
+const handleReset = async () => {
+  formValue.value = {
+    nickname: '',
+    phoneNumber: '',
+    status: null,
+    createTime: null
+  }
+  tableData.value = await getUsersList()
 }
+
 onMounted(async () => {
-  tableData.value = await getData()
+  tableData.value = await getUsersList()
 })
 </script>
 
@@ -77,12 +156,7 @@ onMounted(async () => {
             />
           </n-form-item-gi>
           <n-form-item-gi :span="16" label="创建时间">
-            <n-date-picker
-              v-model:formatted-value="formValue.createTime"
-              value-format="yyyy.MM.dd HH:mm:ss"
-              type="daterange"
-              class="w-full"
-            />
+            <n-date-picker v-model:value="formValue.createTime" type="daterange" class="w-full" />
           </n-form-item-gi>
           <n-form-item-gi :span="8">
             <NFlex justify="end" class="w-full">
@@ -107,8 +181,7 @@ onMounted(async () => {
         :pagination="pagination"
       />
     </n-card>
-    <EditModal v-model="showModal" :row="row" :typeModal="typeModal" />
+    <EditModal v-model="showEditModal" :rowData="rowData" />
+    <ChangePasswordModal v-model="showChangePasswordModal" />
   </div>
 </template>
-
-<style lang="" scoped></style>

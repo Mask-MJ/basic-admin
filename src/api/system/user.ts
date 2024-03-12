@@ -8,6 +8,7 @@ enum Api {
 
   Users = 'system/user',
   UserInfo = 'system/user/info',
+  ChangePassword = 'system/user/changePassword',
   Logout = 'system/user/logout'
 }
 
@@ -24,9 +25,12 @@ export const getUserInfo = () => defHttp.get<UserInfo>({ url: Api.UserInfo })
 export const getUsersList = (params?: Partial<SearchParams>) =>
   defHttp.get<UserInfo[]>({ url: Api.Users, params })
 // 创建用户
-export const createUser = (params: RegisterParams) => defHttp.post({ url: Api.Users, params })
+export const createUser = (params: UserInfo) => defHttp.post({ url: Api.Users, params })
 // 获取单个用户信息
 export const getUserDetail = (id: number) => defHttp.get<UserInfo>({ url: `${Api.Users}/${id}` })
+// 修改密码
+export const changePassword = (params: { password: string }) =>
+  defHttp.patch({ url: Api.ChangePassword, params })
 // 更新用户
 export const updateUser = (params: Partial<UserInfo>) =>
   defHttp.patch({ url: `${Api.Users}/${params.id}`, params })
