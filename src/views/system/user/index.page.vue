@@ -135,7 +135,7 @@ onMounted(async () => {
 
 <template>
   <div class="flex flex-col h-full">
-    <n-card class="mb-4" size="small" hoverable>
+    <n-card class="mb-4" size="medium" hoverable>
       <n-form ref="formRef" inline :label-width="80" :model="formValue" label-placement="left">
         <n-grid :cols="24" :x-gap="24">
           <n-form-item-gi :span="8" label="用户名">
@@ -167,7 +167,7 @@ onMounted(async () => {
         </n-grid>
       </n-form>
     </n-card>
-    <n-card size="small" hoverable title="用户管理" class="flex-1">
+    <n-card size="medium" hoverable title="用户管理" class="flex-1">
       <template #header-extra>
         <NButton type="primary" @click="addUser"> 新增用户 </NButton>
       </template>
@@ -181,7 +181,7 @@ onMounted(async () => {
         :pagination="pagination"
       />
     </n-card>
-    <EditModal v-model="showEditModal" :rowData="rowData" />
+    <EditModal v-model="showEditModal" :rowData="rowData" @reload="handleReset" />
     <ChangePasswordModal v-model="showChangePasswordModal" />
   </div>
 </template>
