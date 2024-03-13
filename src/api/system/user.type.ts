@@ -50,8 +50,11 @@ export interface Role {
 }
 
 export interface SearchParams {
-  nickname: string
-  phoneNumber: string
+  nickname: string | null
+  phoneNumber: string | null
   status: number | null
-  createTime: [number, number] | null
+  beginTime: number | null
+  endTime: number | null
+  page: number
+  pageSize: number
 }

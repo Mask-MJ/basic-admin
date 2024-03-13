@@ -5,7 +5,7 @@ import { getUsersList, deleteUser } from '@/api/system/user'
 import EditModal from './EditModal.vue'
 import ChangePasswordModal from './ChangePasswordModal.vue'
 
-const formValue = ref<SearchParams>({
+const formValue = ref({
   nickname: '',
   phoneNumber: '',
   status: null,
@@ -85,10 +85,15 @@ const columns: DataTableColumns<UserInfo> = [
                     {
                       onPositiveClick: async () => {
                         await deleteUser(row.id)
-                        tableData.value = await getUsersList({
-                          ...formValue.value,
+                        const params: SearchParams = {
+                          nickname: formValue.value.nickname,
+                          phoneNumber: formValue.value.phoneNumber,
+                          status: formValue.value.status,
+                          beginTime: formValue.value.createTime?.[0] || null,
+                          endTime: formValue.value.createTime?.[1] || null,
                           ...pagination.value
-                        })
+                        }
+                        tableData.value = await getUsersList(params)
                       }
                     },
                     {
@@ -116,7 +121,15 @@ const addUser = () => {
 }
 
 const handleSearch = async () => {
-  tableData.value = await getUsersList({ ...formValue.value, ...pagination.value })
+  const params: SearchParams = {
+    nickname: formValue.value.nickname || null,
+    phoneNumber: formValue.value.phoneNumber || null,
+    status: formValue.value.status || null,
+    beginTime: formValue.value.createTime?.[0] || null,
+    endTime: formValue.value.createTime?.[1] || null,
+    ...pagination.value
+  }
+  tableData.value = await getUsersList(params)
 }
 const handleReset = async () => {
   formValue.value = {
