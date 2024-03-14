@@ -8,19 +8,12 @@ export interface CreatedRole {
 export interface RoleInfo {
   id: number
   name: string
+  value: string
   roleKey: string
   sort: number
   remark: string
   createdAt: string
   updatedAt: string
-}
-
-export interface SearchParams {
-  pageSize: number
-  pageNum: number
-  name: string
-  roleKey: string
-  status: string
 }
 
 export interface Routes {
@@ -37,4 +30,12 @@ export interface Routes {
     status: number
   }
   children?: Routes[]
+}
+
+export interface SearchParams {
+  name: string | null
+  beginTime: number | null
+  endTime: number | null
+  page: number
+  pageSize: number
 }
