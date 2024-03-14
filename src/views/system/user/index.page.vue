@@ -15,7 +15,7 @@ const tableData = ref<UserInfo[]>([])
 const pagination = ref({ page: 1, pageSize: 10 })
 const showEditModal = ref(false)
 const showChangePasswordModal = ref(false)
-const rowData = ref<UserInfo>()
+const rowData = ref<UserInfo>({} as UserInfo)
 
 const columns: DataTableColumns<UserInfo> = [
   { title: '账号', key: 'account', align: 'center' },
@@ -68,6 +68,7 @@ const columns: DataTableColumns<UserInfo> = [
                       type: 'warning',
                       onClick: () => {
                         showChangePasswordModal.value = true
+                        rowData.value = row
                       }
                     },
                     { default: () => h('i', { class: 'i-ant-design:lock-outlined' }) }
@@ -117,7 +118,7 @@ const columns: DataTableColumns<UserInfo> = [
 
 const addUser = () => {
   showEditModal.value = true
-  rowData.value = undefined
+  rowData.value = {} as UserInfo
 }
 
 const handleSearch = async () => {
@@ -195,6 +196,6 @@ onMounted(async () => {
       />
     </n-card>
     <EditModal v-model="showEditModal" :rowData="rowData" @reload="handleReset" />
-    <ChangePasswordModal v-model="showChangePasswordModal" />
+    <ChangePasswordModal v-model="showChangePasswordModal" :rowData="rowData" />
   </div>
 </template>

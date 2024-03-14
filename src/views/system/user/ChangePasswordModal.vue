@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { changePassword } from '@/api/system/user'
+import type { UserInfo } from '@/api/system/user.type'
 import type { FormInst, FormItemInst, FormItemRule, FormRules } from 'naive-ui'
 
 interface FormValueType {
   password: string | null
   reenteredPassword: string | null
 }
+
+const props = defineProps({
+  rowData: { type: Object as PropType<UserInfo>, required: true }
+})
 
 const show = defineModel({ required: true, type: Boolean })
 const formRef = ref<FormInst | null>(null)
@@ -40,7 +45,8 @@ const rules: FormRules = {
 }
 const submitCallback = async () => {
   await formRef.value?.validate()
-  changePassword({ password: formValue.value.password! })
+  const id = props.rowData.id
+  changePassword({ id, password: formValue.value.password! })
 }
 const cancelCallback = () => {
   formValue.value = { password: null, reenteredPassword: null }

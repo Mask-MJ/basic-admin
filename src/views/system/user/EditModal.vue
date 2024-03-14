@@ -16,14 +16,14 @@ const rules = {
   nickname: { required: true, message: '请输入用户名', trigger: 'blur' }
 }
 const setDataCallback = () => {
-  if (props.rowData) {
+  if (props.rowData?.id) {
     formValue.value = props.rowData
   }
 }
 const submitCallback = async () => {
   await formRef.value?.validate()
   // 判断是新增还是编辑
-  if (props.rowData) {
+  if (props.rowData?.id) {
     // 编辑
     await updateUser(formValue.value)
     emits('reload')
