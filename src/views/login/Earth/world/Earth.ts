@@ -20,9 +20,9 @@ import {
 } from 'three'
 
 // @ts-ignore
-import earthVertex from '@/assets/images/Earth/shaders/vertex.vs'
+import earthVertex from '../shaders/vertex.vs'
 // @ts-ignore
-import earthFragment from '@/assets/images/Earth/shaders/fragment.fs'
+import earthFragment from '../shaders/fragment.fs'
 import {
   createAnimateLine,
   createLightPillar,

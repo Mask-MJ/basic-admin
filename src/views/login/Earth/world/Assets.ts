@@ -11,8 +11,10 @@ interface ITextures {
 export interface IResources {
   textures?: ITextures[]
 }
+// vite 获取文件路径
 
-const filePath = '/src/assets/images/Earth/images/'
+const filePath = '/images/Earth/'
+// const filePath = '@/views/login/Earth/images/'
 const fileSuffix = [
   'gradient',
   'redCircle',

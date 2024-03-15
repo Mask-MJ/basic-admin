@@ -40,7 +40,7 @@ function handleDropdown(optionKey: string) {
 <template>
   <n-dropdown :options="options" @select="handleDropdown">
     <hover-container class="px-12px" :inverted="theme.header.inverted">
-      <n-avatar round size="small" :src="user.userInfo.avatar" />
+      <n-avatar round size="small" :src="user.userInfo.avatar || ''" />
       <span class="pl-8px text-16px font-medium"> {{ user.userInfo.nickname }} </span>
     </hover-container>
   </n-dropdown>
