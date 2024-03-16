@@ -1,4 +1,5 @@
 import type { CreatedMenu, MenuInfo, SearchParams } from './menu.type'
+import type { Result } from '@/utils/request/types'
 
 import { defHttp } from '@/utils'
 
@@ -8,7 +9,7 @@ enum Api {
 
 // 获取菜单列表
 export const getMenuList = (params?: Partial<SearchParams>) =>
-  defHttp.get<MenuInfo[]>({ url: Api.Menu, params })
+  defHttp.get<Result<MenuInfo[]>>({ url: Api.Menu, params })
 // 创建菜单
 export const createMenu = (params: CreatedMenu) => defHttp.post({ url: Api.Menu, params })
 // 获取单个菜单信息

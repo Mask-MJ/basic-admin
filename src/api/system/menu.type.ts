@@ -22,7 +22,7 @@ export interface MenuInfo {
 }
 
 export interface SearchParams {
-  name: string
+  name: string | null
   status: number | null
 }
 

@@ -6,7 +6,15 @@ import EditModal from './EditModal.vue'
 
 const formValue = ref<SearchParams>({ name: '', status: null })
 const tableData = ref<MenuInfo[]>([])
-const pagination = ref({ page: 1, pageSize: 10 })
+const pagination = ref({
+  page: 1,
+  pageSize: 10,
+  itemCount: 0,
+  onChange: (page: number) => {
+    pagination.value.page = page
+    getLists()
+  }
+})
 const showEditModal = ref(false)
 const rowData = ref<MenuInfo>()
 
@@ -70,10 +78,7 @@ const columns: DataTableColumns<MenuInfo> = [
                     {
                       onPositiveClick: async () => {
                         await deleteMenu(row.id)
-                        tableData.value = await getMenuList({
-                          ...formValue.value,
-                          ...pagination.value
-                        })
+                        getLists()
                       }
                     },
                     {
@@ -99,18 +104,24 @@ const addMenu = () => {
   showEditModal.value = true
   rowData.value = undefined
 }
-
-const handleSearch = async () => {
-  tableData.value = await getMenuList({ ...formValue.value, ...pagination.value })
+const getLists = async () => {
+  const params: SearchParams = {
+    name: formValue.value.name || null,
+    status: formValue.value.status || null,
+    ...pagination.value
+  }
+  const result = await getMenuList(params)
+  tableData.value = result.data
+  pagination.value = { ...pagination.value, itemCount: result.total }
 }
 
 const handleReset = async () => {
   formValue.value = { name: '', status: null }
-  tableData.value = await getMenuList()
+  getLists()
 }
 
 onMounted(async () => {
-  tableData.value = await getMenuList()
+  getLists()
 })
 </script>
 
@@ -134,7 +145,7 @@ onMounted(async () => {
           </n-form-item-gi>
           <n-form-item-gi :span="8">
             <NFlex justify="end" class="w-full">
-              <NButton type="primary" @click="handleSearch"> 查询 </NButton>
+              <NButton type="primary" @click="getLists"> 查询 </NButton>
               <NButton attr-type="button" @click="handleReset"> 重置 </NButton>
             </NFlex>
           </n-form-item-gi>
@@ -152,6 +163,7 @@ onMounted(async () => {
         size="small"
         :columns="columns"
         :data="tableData"
+        :remote="true"
         :pagination="pagination"
       />
     </n-card>
