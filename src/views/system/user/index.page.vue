@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { UserInfo, SearchParams } from '@/api/system/user.type'
-import { NButton, NFlex, NPopconfirm, NPopover, type DataTableColumns } from 'naive-ui'
+import { NButton, NFlex, NPopconfirm, NPopover, NTag, type DataTableColumns } from 'naive-ui'
 import { getUsersList, deleteUser } from '@/api/system/user'
 import EditModal from './EditModal.vue'
 import ChangePasswordModal from './ChangePasswordModal.vue'
@@ -28,7 +28,19 @@ const rowData = ref<UserInfo>({} as UserInfo)
 const columns: DataTableColumns<UserInfo> = [
   { title: '账号', key: 'account', align: 'center' },
   { title: '用户名', key: 'nickname', align: 'center' },
-  { title: '状态', key: 'status', width: 200, align: 'center' },
+  {
+    title: '状态',
+    key: 'status',
+    width: 100,
+    align: 'center',
+    render(row) {
+      return h(
+        NTag,
+        { type: row.status === 1 ? 'success' : 'error' },
+        { default: () => (row.status === 1 ? '启用' : '禁用') }
+      )
+    }
+  },
   { title: '邮箱', key: 'email', align: 'center' },
   { title: '手机号', key: 'phoneNumber', align: 'center' },
   { title: '创建时间', key: 'createdAt', width: 200, align: 'center' },
