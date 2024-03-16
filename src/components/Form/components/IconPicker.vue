@@ -15,7 +15,7 @@ const { t } = useI18n()
 const currentSelect = ref('')
 const currentList = ref(getIcons())
 
-const { getPaginationList, getTotal, setCurrentPage } = usePagination(currentList, props.pageSize)
+const { getPaginationList, getTotal, setPage } = usePagination(currentList, props.pageSize)
 
 watchEffect(() => {
   currentSelect.value = props.value
@@ -30,7 +30,7 @@ watch(
 )
 
 function handlePageChange(page: number) {
-  setCurrentPage(page)
+  setPage(page)
 }
 
 function handleClick(icon: string) {

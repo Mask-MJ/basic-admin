@@ -1,5 +1,5 @@
 import type { AxiosTransform, CreateAxiosOptions } from './transform'
-import type { RequestOptions, Result, ResultData } from './types'
+import type { RequestOptions, Result } from './types'
 import type { AxiosResponse } from 'axios'
 
 import { TOKEN_KEY } from '@/settings/enums'
@@ -38,9 +38,8 @@ const transform: AxiosTransform = {
     // 错误的时候返回
     if (!res) return '[HTTP] Request has no return value'
     const { data, status } = res
-
     if (status.toString().startsWith('2')) {
-      return data as ResultData
+      return data as Result
     }
   },
 

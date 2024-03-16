@@ -5,7 +5,7 @@ import type { FormInst } from 'naive-ui'
 
 const emits = defineEmits(['reload'])
 const props = defineProps({
-  rowData: { type: Object as PropType<UserInfo> }
+  rowData: { type: Object as PropType<UserInfo>, required: true }
 })
 const show = defineModel({ required: true, type: Boolean })
 const formRef = ref<FormInst | null>(null)
@@ -15,15 +15,16 @@ const rules = {
   password: { required: true, message: '请输入密码', trigger: 'blur' },
   nickname: { required: true, message: '请输入用户名', trigger: 'blur' }
 }
+const isEdit = computed(() => Object.keys(props.rowData).length > 0)
 const setDataCallback = () => {
-  if (props.rowData?.id) {
+  if (isEdit.value) {
     formValue.value = props.rowData
   }
 }
 const submitCallback = async () => {
   await formRef.value?.validate()
   // 判断是新增还是编辑
-  if (props.rowData?.id) {
+  if (isEdit.value) {
     // 编辑
     await updateUser(formValue.value)
     emits('reload')
@@ -42,7 +43,7 @@ const cancelCallback = () => {
   <n-modal
     v-model:show="show"
     preset="dialog"
-    :title="rowData ? '编辑用户' : '新增用户'"
+    :title="rowData?.id ? '编辑用户' : '新增用户'"
     positive-text="确认"
     negative-text="取消"
     @after-enter="setDataCallback"
@@ -59,7 +60,7 @@ const cancelCallback = () => {
       <n-form-item label="账号" path="account">
         <n-input v-model:value="formValue.account" />
       </n-form-item>
-      <n-form-item label="密码" path="password" v-if="!rowData">
+      <n-form-item label="密码" path="password" v-if="!isEdit">
         <n-input v-model:value="formValue.password" />
       </n-form-item>
       <n-form-item label="用户名" path="nickname">

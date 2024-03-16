@@ -12,7 +12,15 @@ const formValue = ref({
   createTime: null
 })
 const tableData = ref<UserInfo[]>([])
-const pagination = ref({ page: 1, pageSize: 10 })
+const pagination = ref({
+  page: 1,
+  pageSize: 10,
+  itemCount: 0,
+  onChange: (page: number) => {
+    pagination.value.page = page
+    getLists()
+  }
+})
 const showEditModal = ref(false)
 const showChangePasswordModal = ref(false)
 const rowData = ref<UserInfo>({} as UserInfo)
@@ -86,15 +94,7 @@ const columns: DataTableColumns<UserInfo> = [
                     {
                       onPositiveClick: async () => {
                         await deleteUser(row.id)
-                        const params: SearchParams = {
-                          nickname: formValue.value.nickname,
-                          phoneNumber: formValue.value.phoneNumber,
-                          status: formValue.value.status,
-                          beginTime: formValue.value.createTime?.[0] || null,
-                          endTime: formValue.value.createTime?.[1] || null,
-                          ...pagination.value
-                        }
-                        tableData.value = await getUsersList(params)
+                        getLists()
                       }
                     },
                     {
@@ -121,7 +121,7 @@ const addUser = () => {
   rowData.value = {} as UserInfo
 }
 
-const handleSearch = async () => {
+const getLists = async () => {
   const params: SearchParams = {
     nickname: formValue.value.nickname || null,
     phoneNumber: formValue.value.phoneNumber || null,
@@ -130,20 +130,22 @@ const handleSearch = async () => {
     endTime: formValue.value.createTime?.[1] || null,
     ...pagination.value
   }
-  tableData.value = await getUsersList(params)
+  const { data, total } = await getUsersList(params)
+  tableData.value = data
+  pagination.value = { ...pagination.value, itemCount: total }
 }
-const handleReset = async () => {
+const handleReset = () => {
   formValue.value = {
     nickname: '',
     phoneNumber: '',
     status: null,
     createTime: null
   }
-  tableData.value = await getUsersList()
+  getLists()
 }
 
-onMounted(async () => {
-  tableData.value = await getUsersList()
+onMounted(() => {
+  getLists()
 })
 </script>
 
@@ -174,7 +176,7 @@ onMounted(async () => {
           </n-form-item-gi>
           <n-form-item-gi :span="8">
             <NFlex justify="end" class="w-full">
-              <NButton type="primary" @click="handleSearch"> 查询 </NButton>
+              <NButton type="primary" @click="getLists"> 查询 </NButton>
               <NButton attr-type="button" @click="handleReset"> 重置 </NButton>
             </NFlex>
           </n-form-item-gi>
@@ -188,6 +190,7 @@ onMounted(async () => {
       <n-data-table
         class="h-full"
         :single-line="false"
+        :remote="true"
         flex-height
         size="small"
         :columns="columns"

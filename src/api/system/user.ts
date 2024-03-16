@@ -1,4 +1,5 @@
 import type { LoginParams, LoginResult, RegisterParams, SearchParams, UserInfo } from './user.type'
+import type { Result } from '@/utils/request/types'
 
 import { defHttp } from '@/utils'
 
@@ -23,7 +24,7 @@ export const getUserInfo = () => defHttp.get<UserInfo>({ url: Api.UserInfo })
 
 // 获取用户列表
 export const getUsersList = (params?: Partial<SearchParams>) =>
-  defHttp.get<UserInfo[]>({ url: Api.Users, params })
+  defHttp.get<Result<UserInfo[]>>({ url: Api.Users, params })
 // 创建用户
 export const createUser = (params: UserInfo) => defHttp.post({ url: Api.Users, params })
 // 获取单个用户信息

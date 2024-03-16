@@ -17,29 +17,11 @@ export interface RequestOptions {
   joinTime?: boolean
 }
 
-// 请求响应参数（不包含data）
-export interface BasicResult {
+export interface Result<T = any> {
   statusCode: number
   message: string
-}
-
-// 请求响应参数（包含data）
-export interface ResultData<T = any> extends BasicResult {
   data: T
-}
-
-// 分页请求参数
-export interface ReqPage {
-  page: number
-  pageSize: number
-}
-
-// 分页响应参数
-export interface ResPage<T = any> extends BasicResult {
-  rows: T[]
-  currentPage: number
+  page?: number
+  pageSize?: number
   total: number
-  totalPage: number
 }
-
-export type Result<T = any> = BasicResult | ResultData<T> | ResPage<T>

@@ -5,7 +5,7 @@ import { get, isArray, isFunction } from 'lodash-es'
 
 type Api = (
   arg?: Recordable
-) => Promise<{ total: number; totalPage: number; currentPage: number; data: SelectOption[] }>
+) => Promise<{ total: number; pageSize: number; page: number; data: SelectOption[] }>
 
 const attrs = useAttrs()
 const emits = defineEmits(['optionsChange', 'update:value'])
@@ -35,7 +35,7 @@ const fetch = async () => {
     loading.value = true
     let result = await api({ ...unref(paramsRef), ...unref(props.params) })
     if (!result) return
-    totalRef.value = result.totalPage
+    totalRef.value = result.pageSize
 
     if (!isArray(result)) {
       result = get(result, props.resultField) || []
