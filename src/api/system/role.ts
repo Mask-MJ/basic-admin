@@ -1,3 +1,4 @@
+import type { Result } from '@/utils/request/types'
 import type { CreatedRole, Routes, RoleInfo, SearchParams } from './role.type'
 
 import { defHttp } from '@/utils'
@@ -9,7 +10,7 @@ enum Api {
 
 // 获取角色列表
 export const getRolesList = (params?: Partial<SearchParams>) =>
-  defHttp.get<RoleInfo[]>({ url: Api.Roles, params })
+  defHttp.get<Result<RoleInfo[]>>({ url: Api.Roles, params })
 // 创建角色
 export const createRole = (params: CreatedRole) => defHttp.post({ url: Api.Roles, params })
 // 获取单个角色信息

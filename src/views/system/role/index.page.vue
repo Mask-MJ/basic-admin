@@ -9,7 +9,15 @@ const formValue = ref({
   createTime: null
 })
 const tableData = ref<RoleInfo[]>([])
-const pagination = ref({ page: 1, pageSize: 10 })
+const pagination = ref({
+  page: 1,
+  pageSize: 10,
+  itemCount: 0,
+  onChange: (page: number) => {
+    pagination.value.page = page
+    getLists()
+  }
+})
 const columns: DataTableColumns<RoleInfo> = [
   { title: '角色名称', key: 'name', align: 'center' },
   { title: '角色关键字', key: 'value', align: 'center' },
@@ -60,13 +68,7 @@ const columns: DataTableColumns<RoleInfo> = [
                       // 删除角色的点击事件
                       onPositiveClick: async () => {
                         await deleteRole(row.id)
-                        const params: SearchParams = {
-                          name: formValue.value.name || null,
-                          beginTime: formValue.value.createTime?.[0] || null,
-                          endTime: formValue.value.createTime?.[1] || null,
-                          ...pagination.value
-                        }
-                        tableData.value = await getRolesList(params)
+                        getLists()
                       }
                     },
                     {
@@ -90,21 +92,25 @@ const columns: DataTableColumns<RoleInfo> = [
 const showEditModal = ref(false)
 const rowData = ref<RoleInfo>()
 
-const handleSearch = async () => {
+const getLists = async () => {
   const params: SearchParams = {
     name: formValue.value.name || null,
     beginTime: formValue.value.createTime?.[0] || null,
     endTime: formValue.value.createTime?.[1] || null,
     ...pagination.value
   }
-  tableData.value = await getRolesList(params)
+  const result = await getRolesList(params)
+  tableData.value = result.data
+  // console.log(result)
+  pagination.value = { ...pagination.value, itemCount: result.total }
 }
-const handleReset = async () => {
+
+const handleReset = () => {
   formValue.value = {
     name: '',
     createTime: null
   }
-  tableData.value = await getRolesList()
+  getLists()
 }
 
 const addRole = () => {
@@ -113,7 +119,7 @@ const addRole = () => {
 }
 
 onMounted(async () => {
-  tableData.value = await getRolesList()
+  getLists()
 })
 </script>
 
@@ -130,7 +136,7 @@ onMounted(async () => {
           </n-form-item-gi>
           <n-form-item-gi :span="24">
             <NFlex justify="end" class="w-full">
-              <NButton type="primary" @click="handleSearch"> 查询 </NButton>
+              <NButton type="primary" @click="getLists"> 查询 </NButton>
               <NButton attr-type="button" @click="handleReset"> 重置 </NButton>
             </NFlex>
           </n-form-item-gi>
@@ -144,6 +150,7 @@ onMounted(async () => {
       <n-data-table
         class="h-full"
         :single-line="false"
+        :remote="true"
         flex-height
         size="small"
         :columns="columns"
