@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { getLogList } from '@/api/monitor/log'
-import type { SearchParams, logInofo } from '@/api/monitor/log.type'
+import { getLoginLogList } from '@/api/monitor/loginLog'
+import type { SearchParams, LoginLogInofo } from '@/api/monitor/loginLog.type'
 import { NButton, type DataTableColumns } from 'naive-ui'
 
 const formValue = ref({
@@ -8,7 +8,7 @@ const formValue = ref({
   address: '',
   createTime: null
 })
-const tableData = ref<logInofo[]>([])
+const tableData = ref<LoginLogInofo[]>([])
 const pagination = ref({
   page: 1,
   pageSize: 10,
@@ -19,7 +19,7 @@ const pagination = ref({
   }
 })
 
-const columns: DataTableColumns<logInofo> = [
+const columns: DataTableColumns<LoginLogInofo> = [
   { title: '账号', key: 'account', align: 'center' },
   { title: '登陆地址', key: 'address', align: 'center' },
   { title: 'IP', key: 'ip', align: 'center' },
@@ -35,7 +35,7 @@ const getLists = async () => {
     endTime: formValue.value.createTime?.[1] || null,
     ...pagination.value
   }
-  const result = await getLogList(params)
+  const result = await getLoginLogList(params)
   // console.log(result)
   tableData.value = result.data
   pagination.value = { ...pagination.value, itemCount: result.total }
@@ -94,3 +94,4 @@ onMounted(() => {
 </template>
 
 <style lang="" scoped></style>
+@/api/monitor/loginLog@/api/monitor/loginLog.type

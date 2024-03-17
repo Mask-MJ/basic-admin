@@ -1,4 +1,4 @@
-export interface logInofo {
+export interface LoginLogInofo {
   id: number
   userId: number
   account: string | null
