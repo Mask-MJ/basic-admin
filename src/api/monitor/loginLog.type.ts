@@ -7,7 +7,6 @@ export interface LoginLogInofo {
   userAgent: string
   createdAt: Date
   updatedAt: Date
-  user: number
 }
 
 export interface SearchParams {
