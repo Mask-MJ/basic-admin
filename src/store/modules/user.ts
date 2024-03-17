@@ -274,16 +274,30 @@ export const useUserStore = defineStore('user-store', {
             },
             {
               id: 16,
-              name: 'Log',
-              path: '/monitor/log',
+              name: 'loginLog',
+              path: '/monitor/loginLog',
               redirect: '',
               meta: {
-                title: '日志监控',
+                title: '登陆日志监控',
                 icon: 'i-ant-design:cloud-server-outlined',
                 hidden: false,
                 parentId: 2,
                 status: 1,
                 sort: 3
+              }
+            },
+            {
+              id: 17,
+              name: 'recordLog',
+              path: '/monitor/recordLog',
+              redirect: '',
+              meta: {
+                title: '操作日志监控',
+                icon: 'i-ant-design:cloud-server-outlined',
+                hidden: false,
+                parentId: 2,
+                status: 1,
+                sort: 4
               }
             }
           ]
