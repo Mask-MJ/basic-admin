@@ -83,7 +83,7 @@ onMounted(() => {
       </n-form>
     </n-card>
 
-    <n-card size="medium" hoverable title="日志监控" class="flex-1">
+    <n-card size="medium" hoverable title="登陆日志监控" class="flex-1">
       <n-data-table
         class="h-full"
         :single-line="false"
@@ -99,4 +99,3 @@ onMounted(() => {
 </template>
 
 <style lang="" scoped></style>
-@/api/monitor/loginLog@/api/monitor/loginLog.type
