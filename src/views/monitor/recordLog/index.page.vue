@@ -2,6 +2,7 @@
 import { getRecordLogList } from '@/api/monitor/recordLog'
 import type { RecordLogInofo, SearchParams } from '@/api/monitor/recordLog.type'
 import type { DataTableColumns } from 'naive-ui/es/data-table'
+
 const formValue = ref({
   account: '',
   action: '',
@@ -34,12 +35,13 @@ const getLists = async () => {
     module: formValue.value.module || null,
     beginTime: formValue.value.createTime?.[0] || null,
     endTime: formValue.value.createTime?.[1] || null,
-    ...pagination.value
+    page: pagination.value.page,
+    pageSize: pagination.value.pageSize
   }
   const result = await getRecordLogList(params)
   // console.log(result)
   tableData.value = result.data
-  pagination.value = { ...pagination.value, itemCount: result.total }
+  pagination.value.itemCount = result.total
 }
 const handleReset = () => {
   formValue.value = {
