@@ -24,6 +24,8 @@ export interface MenuInfo {
 export interface SearchParams {
   name: string | null
   status: number | null
+  page: number
+  pageSize: number
 }
 
 export interface Routes {
