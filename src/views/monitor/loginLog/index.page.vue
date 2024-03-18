@@ -34,12 +34,13 @@ const getLists = async () => {
     address: formValue.value.address || null,
     beginTime: formValue.value.createTime?.[0] || null,
     endTime: formValue.value.createTime?.[1] || null,
-    ...pagination.value
+    page: pagination.value.page,
+    pageSize: pagination.value.pageSize
   }
   const result = await getLoginLogList(params)
   // console.log(result)
   tableData.value = result.data
-  pagination.value = { ...pagination.value, itemCount: result.total }
+  pagination.value.itemCount = result.total
 }
 const handleReset = () => {
   formValue.value = {
@@ -61,19 +62,19 @@ onMounted(() => {
     <n-card class="mb-4" size="medium" hoverable>
       <n-form ref="formRef" inline :label-width="80" :model="formValue" label-placement="left">
         <n-grid :cols="24" :x-gap="24">
-          <n-form-item-gi :span="8" label="账号">
+          <n-form-item-gi :span="6" label="账号">
             <n-input v-model:value="formValue.account" placeholder="请输入账号" />
           </n-form-item-gi>
-          <n-form-item-gi :span="8" label="登陆地址">
+          <n-form-item-gi :span="6" label="登陆地址">
             <n-input v-model:value="formValue.address" placeholder="请输入登陆地址" />
           </n-form-item-gi>
-          <n-form-item-gi :span="8" label="用户操作">
+          <!-- <n-form-item-gi :span="8" label="用户操作">
             <n-input v-model:value="formValue.userAgent" placeholder="请输入用户操作" />
-          </n-form-item-gi>
-          <n-form-item-gi :span="16" label="登陆时间">
+          </n-form-item-gi> -->
+          <n-form-item-gi :span="12" label="登陆时间">
             <n-date-picker v-model:value="formValue.createTime" type="daterange" class="w-full" />
           </n-form-item-gi>
-          <n-form-item-gi :span="8">
+          <n-form-item-gi :span="24">
             <NFlex justify="end" class="w-full">
               <NButton type="primary" @click="getLists"> 查询 </NButton>
               <NButton attr-type="button" @click="handleReset"> 重置 </NButton>
