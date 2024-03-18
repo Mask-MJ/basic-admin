@@ -4,7 +4,7 @@ import { NButton, NFlex, NPopconfirm, NPopover, NTag, type DataTableColumns } fr
 import { getMenuList, deleteMenu } from '@/api/system/menu'
 import EditModal from './EditModal.vue'
 
-const formValue = ref<SearchParams>({ name: '', status: null })
+const formValue = ref({ name: '', status: null })
 const tableData = ref<MenuInfo[]>([])
 const pagination = ref({
   page: 1,
@@ -107,12 +107,13 @@ const addMenu = () => {
 const getLists = async () => {
   const params: SearchParams = {
     name: formValue.value.name || null,
-    status: formValue.value.status || null,
-    ...pagination.value
+    status: formValue.value.status,
+    page: pagination.value.page,
+    pageSize: pagination.value.pageSize
   }
   const result = await getMenuList(params)
   tableData.value = result.data
-  pagination.value = { ...pagination.value, itemCount: result.total }
+  pagination.value.itemCount = result.total
 }
 
 const handleReset = async () => {
