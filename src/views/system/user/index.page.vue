@@ -137,14 +137,15 @@ const getLists = async () => {
   const params: SearchParams = {
     nickname: formValue.value.nickname || null,
     phoneNumber: formValue.value.phoneNumber || null,
-    status: formValue.value.status || null,
+    status: formValue.value.status,
     beginTime: formValue.value.createTime?.[0] || null,
     endTime: formValue.value.createTime?.[1] || null,
-    ...pagination.value
+    page: pagination.value.page,
+    pageSize: pagination.value.pageSize
   }
   const { data, total } = await getUsersList(params)
   tableData.value = data
-  pagination.value = { ...pagination.value, itemCount: total }
+  pagination.value.itemCount = total
 }
 const handleReset = () => {
   formValue.value = {
