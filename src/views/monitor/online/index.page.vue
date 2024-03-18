@@ -69,12 +69,13 @@ const getLists = async () => {
     account: formValue.value.account || null,
     nickname: formValue.value.nickname || null,
     phoneNumber: formValue.value.phoneNumber || null,
-    ...pagination.value
+    page: pagination.value.page,
+    pageSize: pagination.value.pageSize
   }
   const result = await getOnlineUser(params)
   // console.log(result)
   tableData.value = result.data
-  pagination.value = { ...pagination.value, itemCount: result.total }
+  pagination.value.itemCount = result.total
 }
 const handleReset = async () => {
   formValue.value = {
