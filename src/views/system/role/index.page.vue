@@ -97,12 +97,13 @@ const getLists = async () => {
     name: formValue.value.name || null,
     beginTime: formValue.value.createTime?.[0] || null,
     endTime: formValue.value.createTime?.[1] || null,
-    ...pagination.value
+    page: pagination.value.page,
+    pageSize: pagination.value.pageSize
   }
   const result = await getRolesList(params)
   tableData.value = result.data
   // console.log(result)
-  pagination.value = { ...pagination.value, itemCount: result.total }
+  pagination.value.itemCount = result.total
 }
 
 const handleReset = () => {
