@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import type { UserInfo } from '@/api/system/user.type'
-import { createUser, updateUser } from '@/api/system/user'
 import type { FormInst } from 'naive-ui'
+import type { UserInfo } from '@/api/system/user.type'
+import type { RoleInfo } from '@/api/system/role.type'
+import { createUser, updateUser } from '@/api/system/user'
+import { getRolesList } from '@/api/system/role'
 
 const emits = defineEmits(['reload'])
 const props = defineProps({
@@ -10,13 +12,20 @@ const props = defineProps({
 const show = defineModel({ required: true, type: Boolean })
 const formRef = ref<FormInst | null>(null)
 const formValue = ref({} as UserInfo)
+const roleOptions = ref()
+const isEdit = computed(() => Object.keys(props.rowData).length > 0)
+
 const rules = {
   account: { required: true, message: '请输入账号', trigger: 'blur' },
   password: { required: true, message: '请输入密码', trigger: 'blur' },
   nickname: { required: true, message: '请输入用户名', trigger: 'blur' }
 }
-const isEdit = computed(() => Object.keys(props.rowData).length > 0)
-const setDataCallback = () => {
+const setDataCallback = async () => {
+  const { data } = await getRolesList()
+  roleOptions.value = data.map((item: RoleInfo) => ({
+    label: item.name,
+    value: item.id
+  }))
   if (isEdit.value) {
     formValue.value = props.rowData
   }
@@ -81,14 +90,7 @@ const cancelCallback = () => {
         </n-radio-group>
       </n-form-item>
       <n-form-item label="角色">
-        <n-select
-          v-model:value="formValue.roles"
-          placeholder="Select"
-          :options="[
-            { label: '管理员', value: 1 },
-            { label: '普通用户', value: 2 }
-          ]"
-        />
+        <n-select v-model:value="formValue.roles" placeholder="Select" :options="roleOptions" />
       </n-form-item>
       <n-form-item label="备注">
         <n-input v-model:value="formValue.remark" type="textarea" />

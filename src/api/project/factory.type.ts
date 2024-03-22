@@ -1,4 +1,4 @@
-export interface CreatedFactorys {
+export interface CreatedFactory {
   name: string
   status: number
   remark: string
@@ -7,7 +7,7 @@ export interface CreatedFactorys {
   valves: number[]
 }
 
-export interface FactorysInfo {
+export interface FactoryInfo {
   id: number
   name: string
   status: number
@@ -22,6 +22,6 @@ export interface FactorysInfo {
 export interface SearchParams {
   page: number
   pageSize: number
-  name?: string
-  status?: number
+  name: string | null
+  status: number | null
 }
