@@ -1,6 +1,5 @@
 export interface CreateDict {
   name: string
-  templateId: number
   value: string
   remark: string
 }
@@ -10,16 +9,14 @@ export interface DictInfo {
   name: string
   value: string
   remark: string
-  templateId: number
-  createrId: number
-  template: number[]
-  createdAt: string
-  updatedAt: string
+  createdAt: Date
+  updatedAt: Date
 }
 
 export interface SearchParams {
   page: number
   pageSize: number
-  name?: string
-  templateId: number
+  name: string | null
+  value: string | null
+  status: number | null
 }
