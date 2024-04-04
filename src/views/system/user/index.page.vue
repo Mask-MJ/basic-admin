@@ -110,7 +110,7 @@ const columns: DataTableColumns<UserInfo> = [
                       }
                     },
                     {
-                      default: () => '确认删除该用户吗？',
+                      default: () => '确认删除该数据吗？',
                       trigger: () =>
                         h(
                           NButton,

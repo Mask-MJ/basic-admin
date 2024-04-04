@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { deleteDept, getDeptList } from '@/api/system/dept'
-import type { DeptInfo, SearchParams } from '@/api/system/dept.type'
+import type { SearchParams, ValveInfo } from '@/api/project/valve.type'
 import { NButton, NFlex, NPopconfirm, NPopover, NTag, type DataTableColumns } from 'naive-ui'
+import { getValveList, deleteValve } from '@/api/project/valve'
 import EditModal from './EditModal.vue'
 
 const formValue = ref({ name: '', status: null })
-const tableData = ref<DeptInfo[]>([])
+const tableData = ref<ValveInfo[]>([])
 const pagination = ref({
   page: 1,
   pageSize: 10,
@@ -15,12 +15,12 @@ const pagination = ref({
     getLists()
   }
 })
-const rowKey = (row: DeptInfo) => row.id
 const showEditModal = ref(false)
-const rowData = ref<DeptInfo>()
+const rowData = ref<ValveInfo>()
 
-const columns: DataTableColumns<DeptInfo> = [
-  { title: '部门名称', key: 'name', align: 'center' },
+const columns: DataTableColumns<ValveInfo> = [
+  { title: '阀门名称', key: 'name', align: 'center' },
+  { title: '所属工厂', key: 'factory.name', align: 'center' },
   {
     title: '状态',
     key: 'status',
@@ -30,14 +30,11 @@ const columns: DataTableColumns<DeptInfo> = [
       return h(
         NTag,
         { type: row.status === 1 ? 'success' : 'error' },
-        { default: () => (row.status === 1 ? '正常' : '停用') }
+        { default: () => (row.status === 1 ? '启用' : '禁用') }
       )
     }
   },
-  { title: '排序', key: 'sort', align: 'center' },
-  { title: '备注', key: 'remark', align: 'center' },
   { title: '创建时间', key: 'createdAt', width: 200, align: 'center' },
-  { title: '更新时间', key: 'updatedAt', width: 200, align: 'center' },
   {
     title: '操作',
     key: 'actions',
@@ -79,8 +76,7 @@ const columns: DataTableColumns<DeptInfo> = [
                     NPopconfirm,
                     {
                       onPositiveClick: async () => {
-                        // console.log('delete', row)
-                        await deleteDept(row.id)
+                        await deleteValve(row.id)
                         getLists()
                       }
                     },
@@ -103,27 +99,28 @@ const columns: DataTableColumns<DeptInfo> = [
   }
 ]
 
+const add = () => {
+  showEditModal.value = true
+  rowData.value = undefined
+}
 const getLists = async () => {
   const params: SearchParams = {
-    name: formValue.value.name,
+    name: formValue.value.name || null,
     status: formValue.value.status,
     page: pagination.value.page,
     pageSize: pagination.value.pageSize
   }
-  const result = await getDeptList(params)
-  // console.log(result)
+  const result = await getValveList(params)
   tableData.value = result.data
   pagination.value.itemCount = result.total
 }
-const handleReset = () => {
+
+const handleReset = async () => {
   formValue.value = { name: '', status: null }
   getLists()
 }
-const addDept = () => {
-  showEditModal.value = true
-  rowData.value = undefined
-}
-onMounted(() => {
+
+onMounted(async () => {
   getLists()
 })
 </script>
@@ -133,7 +130,7 @@ onMounted(() => {
     <n-card class="mb-4" size="medium" hoverable>
       <n-form ref="formRef" inline :label-width="80" :model="formValue" label-placement="left">
         <n-grid :cols="24" :x-gap="24">
-          <n-form-item-gi :span="8" label="部门名称">
+          <n-form-item-gi :span="8" label="阀门名称">
             <n-input v-model:value="formValue.name" />
           </n-form-item-gi>
           <n-form-item-gi :span="8" label="状态">
@@ -155,9 +152,9 @@ onMounted(() => {
         </n-grid>
       </n-form>
     </n-card>
-    <n-card title="部门管理" class="flex-1" size="medium" hoverable>
+    <n-card title="阀门管理" class="flex-1" size="medium" hoverable>
       <template #header-extra>
-        <NButton type="primary" @click="addDept"> 新增部门 </NButton>
+        <NButton type="primary" @click="add"> 新增阀门 </NButton>
       </template>
       <n-data-table
         class="h-full"
@@ -167,12 +164,9 @@ onMounted(() => {
         :columns="columns"
         :data="tableData"
         :remote="true"
-        :row-key="rowKey"
         :pagination="pagination"
       />
     </n-card>
     <EditModal v-model="showEditModal" :rowData="rowData" @reload="handleReset" />
   </div>
 </template>
-
-<style lang="" scoped></style>

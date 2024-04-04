@@ -117,6 +117,50 @@ export const useUserStore = defineStore('user-store', {
           ]
         },
         {
+          id: 21,
+          name: 'Project',
+          path: '/project',
+          redirect: '',
+          meta: {
+            title: '业务功能',
+            icon: 'i-ant-design:appstore-outlined',
+            sort: 1,
+            hidden: false,
+            parentId: 0,
+            status: 1
+          },
+          children: [
+            {
+              id: 122,
+              name: 'Factory',
+              path: '/project/factory',
+              redirect: '',
+              meta: {
+                title: '工厂管理',
+                icon: 'i-ant-design:laptop-outlined',
+                sort: 1,
+                hidden: false,
+                parentId: 21,
+                status: 1
+              }
+            },
+            {
+              id: 123,
+              name: 'Valve',
+              path: '/project/valve',
+              redirect: '',
+              meta: {
+                title: '阀门管理',
+                icon: 'i-ant-design:laptop-outlined',
+                sort: 1,
+                hidden: false,
+                parentId: 21,
+                status: 1
+              }
+            }
+          ]
+        },
+        {
           id: 3,
           name: 'System',
           path: '/system',
@@ -258,34 +302,34 @@ export const useUserStore = defineStore('user-store', {
             sort: 2
           },
           children: [
-            {
-              id: 14,
-              name: 'Online',
-              path: '/monitor/online',
-              redirect: '',
-              meta: {
-                title: '在线用户',
-                icon: 'i-ant-design:aim-outlined',
-                hidden: false,
-                parentId: 2,
-                status: 1,
-                sort: 1
-              }
-            },
-            {
-              id: 15,
-              name: 'Server',
-              path: '/monitor/server',
-              redirect: '',
-              meta: {
-                title: '服务监控',
-                icon: 'i-ant-design:cloud-outlined',
-                hidden: false,
-                parentId: 2,
-                status: 1,
-                sort: 2
-              }
-            },
+            // {
+            //   id: 14,
+            //   name: 'Online',
+            //   path: '/monitor/online',
+            //   redirect: '',
+            //   meta: {
+            //     title: '在线用户',
+            //     icon: 'i-ant-design:aim-outlined',
+            //     hidden: false,
+            //     parentId: 2,
+            //     status: 1,
+            //     sort: 1
+            //   }
+            // },
+            // {
+            //   id: 15,
+            //   name: 'Server',
+            //   path: '/monitor/server',
+            //   redirect: '',
+            //   meta: {
+            //     title: '服务监控',
+            //     icon: 'i-ant-design:cloud-outlined',
+            //     hidden: false,
+            //     parentId: 2,
+            //     status: 1,
+            //     sort: 2
+            //   }
+            // },
             {
               id: 16,
               name: 'loginLog',

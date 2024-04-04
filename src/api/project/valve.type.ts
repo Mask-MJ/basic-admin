@@ -20,6 +20,6 @@ export interface ValveInfo {
 export interface SearchParams {
   page: number
   pageSize: number
-  name?: string
-  status?: number
+  name: string | null
+  status: number | null
 }
