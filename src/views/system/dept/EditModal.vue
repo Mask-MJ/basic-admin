@@ -2,6 +2,7 @@
 import { createDept, updateDept } from '@/api/system/dept'
 import type { DeptInfo } from '@/api/system/dept.type'
 import type { FormInst } from 'naive-ui'
+import { cloneDeep } from 'lodash-es'
 
 const emits = defineEmits(['reload'])
 const props = defineProps({
@@ -16,7 +17,7 @@ const rules = {
 // Modal 出现后的回调: 如果有 rowData, 则将 rowData 赋值给 formValue
 const setDataCallback = () => {
   if (props.rowData) {
-    formValue.value = props.rowData
+    formValue.value = cloneDeep(props.rowData)
   }
 }
 // 确认按钮的回调: 如果有 rowData, 则执行编辑操作, 否则执行新增操作
@@ -25,12 +26,11 @@ const submitCallback = async () => {
   if (props.rowData) {
     // 编辑
     await updateDept(formValue.value)
-    emits('reload')
   } else {
     // 新增
     await createDept(formValue.value)
-    emits('reload')
   }
+  emits('reload')
 }
 // 取消按钮的回调: 清空 formValue
 const cancelCallback = () => {

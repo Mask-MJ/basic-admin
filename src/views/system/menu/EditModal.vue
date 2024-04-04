@@ -2,6 +2,7 @@
 import type { MenuInfo } from '@/api/system/menu.type'
 import { createMenu, updateMenu } from '@/api/system/menu'
 import type { FormInst } from 'naive-ui'
+import { cloneDeep } from 'lodash-es'
 
 const emits = defineEmits(['reload'])
 const props = defineProps({
@@ -17,7 +18,7 @@ const rules = {
 }
 const setDataCallback = () => {
   if (props.rowData) {
-    formValue.value = props.rowData
+    formValue.value = cloneDeep(props.rowData)
   }
 }
 const submitCallback = async () => {
@@ -26,12 +27,11 @@ const submitCallback = async () => {
   if (props.rowData) {
     // 编辑
     await updateMenu(formValue.value)
-    emits('reload')
   } else {
     // 新增
     await createMenu(formValue.value)
-    emits('reload')
   }
+  emits('reload')
 }
 const cancelCallback = () => {
   formValue.value = {} as MenuInfo

@@ -2,6 +2,7 @@
 import { createRole, updateRole } from '@/api/system/role'
 import type { RoleInfo } from '@/api/system/role.type'
 import type { FormInst } from 'naive-ui'
+import { cloneDeep } from 'lodash-es'
 
 const emits = defineEmits(['reload'])
 const props = defineProps({
@@ -18,7 +19,7 @@ const rules = {
 // 打开弹窗时的回调，如果是编辑操作，将数据填充到表单中
 const setDataCallback = () => {
   if (props.rowData?.id) {
-    formValue.value = props.rowData
+    formValue.value = cloneDeep(props.rowData)
   }
 }
 // 打开弹窗时的回调
@@ -28,12 +29,11 @@ const submitCallback = async () => {
   if (props.rowData?.id) {
     // 编辑
     await updateRole(formValue.value)
-    emits('reload')
   } else {
     // 新增
     await createRole(formValue.value)
-    emits('reload')
   }
+  emits('reload')
 }
 // 关闭弹窗时的回调
 const cancelCallback = () => {

@@ -2,6 +2,7 @@
 import type { UserInfo } from '@/api/system/user.type'
 import { createUser, updateUser } from '@/api/system/user'
 import type { FormInst } from 'naive-ui'
+import { cloneDeep } from 'lodash-es'
 
 const emits = defineEmits(['reload'])
 const props = defineProps({
@@ -18,7 +19,7 @@ const rules = {
 const isEdit = computed(() => Object.keys(props.rowData).length > 0)
 const setDataCallback = () => {
   if (isEdit.value) {
-    formValue.value = props.rowData
+    formValue.value = cloneDeep(props.rowData)
   }
 }
 const submitCallback = async () => {
@@ -27,12 +28,11 @@ const submitCallback = async () => {
   if (isEdit.value) {
     // 编辑
     await updateUser(formValue.value)
-    emits('reload')
   } else {
     // 新增
     await createUser(formValue.value)
-    emits('reload')
   }
+  emits('reload')
 }
 const cancelCallback = () => {
   formValue.value = {} as UserInfo
