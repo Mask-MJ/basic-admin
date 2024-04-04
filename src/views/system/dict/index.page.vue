@@ -127,7 +127,7 @@ const handleReset = () => {
   formValue.value = { name: '', status: null, value: '' }
   getLists()
 }
-const addList = () => {
+const addDict = () => {
   showEditModal.value = true
   rowData.value = undefined
 }
@@ -169,7 +169,7 @@ onMounted(() => {
     </n-card>
     <n-card title="字典管理" class="flex-1" size="medium" hoverable>
       <template #header-extra>
-        <NButton type="primary" @click="addList"> 新增字典 </NButton>
+        <NButton type="primary" @click="addDict"> 新增字典 </NButton>
       </template>
       <n-data-table
         class="h-full"
