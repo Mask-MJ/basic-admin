@@ -201,7 +201,21 @@ export const useUserStore = defineStore('user-store', {
               }
             },
             {
-              id: 10,
+              id: 15,
+              name: 'DictData',
+              path: '/system/dictData',
+              redirect: '',
+              meta: {
+                title: '字典列表',
+                icon: 'i-ant-design:medicine-box-outlined',
+                hidden: false,
+                parentId: 3,
+                status: 1,
+                sort: 3
+              }
+            },
+            {
+              id: 14,
               name: 'Notice',
               path: '/system/notice',
               redirect: '',
