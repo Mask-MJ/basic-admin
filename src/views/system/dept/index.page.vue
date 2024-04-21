@@ -30,7 +30,7 @@ const columns: DataTableColumns<DeptInfo> = [
       return h(
         NTag,
         { type: row.status === 1 ? 'success' : 'error' },
-        { default: () => (row.status === 1 ? '正常' : '停用') }
+        { default: () => (row.status === 1 ? '启用' : '禁用') }
       )
     }
   },

@@ -29,9 +29,20 @@ const columns: DataTableColumns<UserInfo> = [
   { title: '账号', key: 'account', align: 'center' },
   { title: '用户名', key: 'nickname', align: 'center' },
   {
+    title: '性别',
+    key: 'sex',
+    width: 80,
+    align: 'center',
+    render(row) {
+      return h('span', null, { default: () => (row.status === 1 ? '男' : '女') })
+    }
+  },
+  { title: '邮箱', key: 'email', align: 'center' },
+  { title: '手机号', key: 'phoneNumber', align: 'center' },
+  {
     title: '状态',
     key: 'status',
-    width: 100,
+    width: 80,
     align: 'center',
     render(row) {
       return h(
@@ -41,8 +52,7 @@ const columns: DataTableColumns<UserInfo> = [
       )
     }
   },
-  { title: '邮箱', key: 'email', align: 'center' },
-  { title: '手机号', key: 'phoneNumber', align: 'center' },
+  { title: '备注', key: 'remark', align: 'center' },
   { title: '创建时间', key: 'createdAt', width: 200, align: 'center' },
   {
     title: '操作',
