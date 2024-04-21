@@ -3,6 +3,7 @@ export interface CreatedFactory {
   status: number
   remark: string
   address: string
+  parentId: number
   position: [number, number]
   valves: number[]
 }
@@ -15,6 +16,7 @@ export interface FactoryInfo {
   address: string
   position: [number, number]
   valves: number[]
+  parentId: number
   createdAt: string
   updatedAt: string
 }
@@ -24,4 +26,5 @@ export interface SearchParams {
   pageSize: number
   name: string | null
   status: number | null
+  all: 0 | 1
 }

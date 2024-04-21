@@ -22,4 +22,5 @@ export interface SearchParams {
   pageSize: number
   name: string | null
   status: number | null
+  factoryId?: number | null
 }

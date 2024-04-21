@@ -8,7 +8,14 @@ const tab = useMultipleTabStore()
 
 const isChromeMode = computed(() => theme.tab.mode === 'chrome')
 const activeComponent = computed(() => (isChromeMode.value ? ChromeTab : ButtonTab))
-
+const tabs = computed(() => tab.tabs)
+// watch(
+//   () => tab.tabs,
+//   (newVal) => {
+//     // console.log('newVal', newVal)
+//   },
+//   { deep: true, immediate: true }
+// )
 // 获取当前激活的tab的clientX
 const tabRef = ref<HTMLElement>()
 
@@ -67,14 +74,14 @@ async function handleContextMenu(e: MouseEvent, currentPath: string, affix?: boo
   <div ref="tabRef" class="h-full" :class="[isChromeMode ? 'flex items-end' : 'flex-y-center']">
     <component
       :is="activeComponent"
-      v-for="(item, index) in tab.tabs"
+      v-for="(item, index) in tabs"
       :key="item.fullPath"
       :is-active="tab.activeTab === item.fullPath"
       :primary-color="theme.themeColor"
       :closable="!(item.name === tab.homeTab.name || item.meta.affix)"
       :dark-mode="theme.darkMode"
       :class="{
-        '!mr-0': isChromeMode && index === tab.tabs.length - 1,
+        '!mr-0': isChromeMode && index === tabs.length - 1,
         'mr-10px': !isChromeMode
       }"
       @click="tab.handleClickTab(item.fullPath)"

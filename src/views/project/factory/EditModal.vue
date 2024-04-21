@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { FactoryInfo } from '@/api/project/factory.type'
-import { createFactory, updateFactory } from '@/api/project/factory'
+import { createFactory, updateFactory, getFactoryList } from '@/api/project/factory'
 import type { FormInst } from 'naive-ui'
 
 const emits = defineEmits(['reload'])
@@ -10,14 +10,17 @@ const props = defineProps({
 const show = defineModel({ required: true, type: Boolean })
 const formRef = ref<FormInst | null>(null)
 const formValue = ref({} as FactoryInfo)
+const factoryList = ref<FactoryInfo[]>([])
+
 const rules = {
   name: { required: true, message: '请输入工厂名称', trigger: 'blur' },
   address: { required: true, message: '请输入工厂地址', trigger: 'blur' }
 }
-const setDataCallback = () => {
+const setDataCallback = async () => {
   if (props.rowData) {
     formValue.value = props.rowData
   }
+  factoryList.value = (await getFactoryList({ all: 1 })).data
 }
 const submitCallback = async () => {
   await formRef.value?.validate()
@@ -60,6 +63,14 @@ const cancelCallback = () => {
       </n-form-item>
       <n-form-item label="工厂地址" path="address">
         <n-input v-model:value="formValue.address" />
+      </n-form-item>
+      <n-form-item label="所属工厂">
+        <n-tree-select
+          v-model:value="formValue.parentId"
+          :options="factoryList"
+          label-field="name"
+          key-field="id"
+        />
       </n-form-item>
       <n-form-item label="状态" path="status">
         <n-radio-group v-model:value="formValue.status" :default-value="1">
