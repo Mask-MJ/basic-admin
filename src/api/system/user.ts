@@ -30,7 +30,7 @@ export const createUser = (params: UserInfo) => defHttp.post({ url: Api.Users, p
 // 获取单个用户信息
 export const getUserDetail = (id: number) => defHttp.get<UserInfo>({ url: `${Api.Users}/${id}` })
 // 修改密码
-export const changePassword = (params: { id: number; password: string }) =>
+export const changePassword = (params: { id: number; password: string; oldPassword: string }) =>
   defHttp.patch({ url: Api.ChangePassword, params })
 // 更新用户
 export const updateUser = (params: Partial<UserInfo>) =>
