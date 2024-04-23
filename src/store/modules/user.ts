@@ -157,6 +157,20 @@ export const useUserStore = defineStore('user-store', {
                 parentId: 21,
                 status: 1
               }
+            },
+            {
+              id: 133,
+              name: 'Valve22',
+              path: '/project/valve/:id',
+              redirect: '',
+              meta: {
+                title: '阀门管理',
+                icon: 'i-ant-design:laptop-outlined',
+                sort: 1,
+                hidden: true,
+                parentId: 21,
+                status: 1
+              }
             }
           ]
         },
@@ -316,34 +330,34 @@ export const useUserStore = defineStore('user-store', {
             sort: 2
           },
           children: [
-            // {
-            //   id: 14,
-            //   name: 'Online',
-            //   path: '/monitor/online',
-            //   redirect: '',
-            //   meta: {
-            //     title: '在线用户',
-            //     icon: 'i-ant-design:aim-outlined',
-            //     hidden: false,
-            //     parentId: 2,
-            //     status: 1,
-            //     sort: 1
-            //   }
-            // },
-            // {
-            //   id: 15,
-            //   name: 'Server',
-            //   path: '/monitor/server',
-            //   redirect: '',
-            //   meta: {
-            //     title: '服务监控',
-            //     icon: 'i-ant-design:cloud-outlined',
-            //     hidden: false,
-            //     parentId: 2,
-            //     status: 1,
-            //     sort: 2
-            //   }
-            // },
+            {
+              id: 14,
+              name: 'Online',
+              path: '/monitor/online',
+              redirect: '',
+              meta: {
+                title: '在线用户',
+                icon: 'i-ant-design:aim-outlined',
+                hidden: false,
+                parentId: 2,
+                status: 1,
+                sort: 1
+              }
+            },
+            {
+              id: 15,
+              name: 'Server',
+              path: '/monitor/server',
+              redirect: '',
+              meta: {
+                title: '服务监控',
+                icon: 'i-ant-design:cloud-outlined',
+                hidden: false,
+                parentId: 2,
+                status: 1,
+                sort: 2
+              }
+            },
             {
               id: 16,
               name: 'loginLog',

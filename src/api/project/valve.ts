@@ -4,7 +4,7 @@ import type { Result } from '@/utils/request/types'
 import { defHttp } from '@/utils'
 
 enum Api {
-  Valve = '/project/valve'
+  Valve = 'project/valve'
 }
 
 // 获取阀门列表

@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import type { SearchParams, FactoryInfo } from '@/api/project/factory.type'
+import type { SearchParams, ValveInfo } from '@/api/project/valve.type'
+import { getValveList, deleteValve } from '@/api/project/valve'
 import { NButton, NFlex, NPopconfirm, NPopover, NTag, type DataTableColumns } from 'naive-ui'
-import { getFactoryList, deleteFactory } from '@/api/project/factory'
 import EditModal from './EditModal.vue'
-import { router } from '@/router'
 
+const route = useRoute() as any
+const factoryId = computed(() => Number(route.params.id))
+
+const tableData = ref<ValveInfo[]>([])
 const formValue = ref({ name: '', status: null })
-const tableData = ref<FactoryInfo[]>([])
 const pagination = ref({
   page: 1,
   pageSize: 10,
@@ -17,11 +19,11 @@ const pagination = ref({
   }
 })
 const showEditModal = ref(false)
-const rowData = ref<FactoryInfo>()
+const rowData = ref<ValveInfo>()
 
-const columns: DataTableColumns<FactoryInfo> = [
-  { title: '工厂名称', key: 'name' },
-  { title: '工厂地址', key: 'address' },
+const columns: DataTableColumns<ValveInfo> = [
+  { title: '阀门名称', key: 'name', align: 'center' },
+  { title: '所属工厂', key: 'factory.name', align: 'center' },
   {
     title: '状态',
     key: 'status',
@@ -71,34 +73,13 @@ const columns: DataTableColumns<FactoryInfo> = [
               NPopover,
               { trigger: 'hover' },
               {
-                default: () => '阀门',
-                trigger: () =>
-                  h(
-                    NButton,
-                    {
-                      size: 'small',
-                      type: 'warning',
-                      onClick: () => {
-                        // showEditModal.value = true
-                        // rowData.value = row
-                        router.push(`/project/valve/${row.id}`)
-                      }
-                    },
-                    { default: () => h('i', { class: 'i-ant-design:unordered-list-outlined' }) }
-                  )
-              }
-            ),
-            h(
-              NPopover,
-              { trigger: 'hover' },
-              {
                 default: () => '删除',
                 trigger: () =>
                   h(
                     NPopconfirm,
                     {
                       onPositiveClick: async () => {
-                        await deleteFactory(row.id)
+                        await deleteValve(row.id)
                         getLists()
                       }
                     },
@@ -120,7 +101,6 @@ const columns: DataTableColumns<FactoryInfo> = [
     }
   }
 ]
-
 const add = () => {
   showEditModal.value = true
   rowData.value = undefined
@@ -131,9 +111,9 @@ const getLists = async () => {
     status: formValue.value.status,
     page: pagination.value.page,
     pageSize: pagination.value.pageSize,
-    all: 0
+    factoryId: factoryId.value
   }
-  const result = await getFactoryList(params)
+  const result = await getValveList(params)
   tableData.value = result.data
   pagination.value.itemCount = result.total
 }
@@ -146,6 +126,11 @@ const handleReset = async () => {
 onMounted(async () => {
   getLists()
 })
+
+// onMounted(async () => {
+//   const result = await getValveList({ factoryId: factoryId.value })
+//   tableData.value = result.data
+// })
 </script>
 
 <template>
@@ -153,7 +138,7 @@ onMounted(async () => {
     <n-card class="mb-4" size="medium" hoverable>
       <n-form ref="formRef" inline :label-width="80" :model="formValue" label-placement="left">
         <n-grid :cols="24" :x-gap="24">
-          <n-form-item-gi :span="8" label="工厂名称">
+          <n-form-item-gi :span="8" label="阀门名称">
             <n-input v-model:value="formValue.name" />
           </n-form-item-gi>
           <n-form-item-gi :span="8" label="状态">
@@ -175,9 +160,9 @@ onMounted(async () => {
         </n-grid>
       </n-form>
     </n-card>
-    <n-card title="工厂管理" class="flex-1" size="medium" hoverable>
+    <n-card title="阀门管理" class="flex-1" size="medium" hoverable>
       <template #header-extra>
-        <NButton type="primary" @click="add"> 新增工厂 </NButton>
+        <NButton type="primary" @click="add"> 新增阀门 </NButton>
       </template>
       <n-data-table
         class="h-full"
@@ -193,3 +178,5 @@ onMounted(async () => {
     <EditModal v-model="showEditModal" :rowData="rowData" @reload="handleReset" />
   </div>
 </template>
+
+<style lang="" scoped></style>

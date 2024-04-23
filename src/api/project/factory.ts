@@ -4,7 +4,7 @@ import type { Result } from '@/utils/request/types'
 import { defHttp } from '@/utils'
 
 enum Api {
-  Factory = '/project/factory'
+  Factory = 'project/factory'
 }
 
 // 获取工厂列表
