@@ -60,7 +60,7 @@ const cancelCallback = () => {
       label-placement="left"
       :rules="rules"
     >
-      <n-form-item label="部门名称" path="name">
+      <n-form-item label="字典名称" path="name">
         <n-input v-model:value="formValue.name" />
       </n-form-item>
       <!-- <n-form-item label="状态" path="status">
