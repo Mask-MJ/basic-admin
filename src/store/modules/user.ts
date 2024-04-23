@@ -227,7 +227,21 @@ export const useUserStore = defineStore('user-store', {
                 hidden: false,
                 parentId: 3,
                 status: 1,
-                sort: 3
+                sort: 4
+              }
+            },
+            {
+              id: 9,
+              name: 'Dict',
+              path: '/system/unit',
+              redirect: '',
+              meta: {
+                title: '数据单位管理',
+                icon: 'i-ant-design:pic-center-outlined',
+                hidden: false,
+                parentId: 3,
+                status: 1,
+                sort: 5
               }
             },
             {
@@ -241,7 +255,7 @@ export const useUserStore = defineStore('user-store', {
                 hidden: false,
                 parentId: 3,
                 status: 1,
-                sort: 3
+                sort: 6
               }
             },
             {
@@ -255,7 +269,7 @@ export const useUserStore = defineStore('user-store', {
                 hidden: false,
                 parentId: 3,
                 status: 1,
-                sort: 3
+                sort: 7
               }
             },
             {
@@ -269,7 +283,7 @@ export const useUserStore = defineStore('user-store', {
                 hidden: false,
                 parentId: 3,
                 status: 1,
-                sort: 3
+                sort: 8
               }
             },
             {
@@ -283,7 +297,7 @@ export const useUserStore = defineStore('user-store', {
                 hidden: false,
                 parentId: 3,
                 status: 1,
-                sort: 3
+                sort: 9
               }
             }
           ]
