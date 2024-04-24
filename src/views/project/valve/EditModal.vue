@@ -32,7 +32,9 @@ const setDataCallback = async () => {
     formValue.value = cloneDeep(props.rowData)
   }
   // 如果有工厂id factoryId, 则将 factoryId 赋值给 formValue
-  formValue.value.factoryId = factoryId.value
+  if (factoryId.value) {
+    formValue.value.factoryId = factoryId.value
+  }
   // 获取工厂列表的数据
   factoryList.value = (await getFactoryList()).data
 }
