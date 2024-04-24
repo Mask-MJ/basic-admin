@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import type { SearchParams, FactoryInfo } from '@/api/project/factory.type'
+import { getDeviceList, deleteDevice } from '@/api/project/device'
+import type { DeviceInfo, SearchParams } from '@/api/project/device.type'
 import { NButton, NFlex, NPopconfirm, NPopover, NTag, type DataTableColumns } from 'naive-ui'
-import { getFactoryList, deleteFactory } from '@/api/project/factory'
 import EditModal from './EditModal.vue'
-import { router } from '@/router'
 
 const formValue = ref({ name: '', status: null })
-const tableData = ref<FactoryInfo[]>([])
+const tableData = ref<DeviceInfo[]>([])
 const pagination = ref({
   page: 1,
   pageSize: 10,
@@ -16,12 +15,12 @@ const pagination = ref({
     getLists()
   }
 })
+const rowData = ref<DeviceInfo>()
 const showEditModal = ref(false)
-const rowData = ref<FactoryInfo>()
 
-const columns: DataTableColumns<FactoryInfo> = [
-  { title: '工厂名称', key: 'name' },
-  { title: '工厂地址', key: 'address' },
+const columns: DataTableColumns<DeviceInfo> = [
+  { title: '阀门名称', key: 'name', align: 'center' },
+  { title: '所属工厂', key: 'factory.name', align: 'center' },
   {
     title: '状态',
     key: 'status',
@@ -40,7 +39,7 @@ const columns: DataTableColumns<FactoryInfo> = [
     title: '操作',
     key: 'actions',
     align: 'center',
-    width: 200,
+    width: 150,
     render(row) {
       return h(
         NFlex,
@@ -71,55 +70,13 @@ const columns: DataTableColumns<FactoryInfo> = [
               NPopover,
               { trigger: 'hover' },
               {
-                default: () => '阀门',
-                trigger: () =>
-                  h(
-                    NButton,
-                    {
-                      size: 'small',
-                      type: 'warning',
-                      onClick: () => {
-                        // showEditModal.value = true
-                        // rowData.value = row
-                        router.push(`/project/valve/${row.id}`)
-                      }
-                    },
-                    { default: () => h('i', { class: 'i-ant-design:deployment-unit-outlined' }) }
-                  )
-              }
-            ),
-            h(
-              NPopover,
-              { trigger: 'hover' },
-              {
-                default: () => '装置',
-                trigger: () =>
-                  h(
-                    NButton,
-                    {
-                      size: 'small',
-                      type: 'info',
-                      onClick: () => {
-                        // showEditModal.value = true
-                        // rowData.value = row
-                        router.push(`/project/device/${row.id}`)
-                      }
-                    },
-                    { default: () => h('i', { class: 'i-ant-design:dashboard-outlined' }) }
-                  )
-              }
-            ),
-            h(
-              NPopover,
-              { trigger: 'hover' },
-              {
                 default: () => '删除',
                 trigger: () =>
                   h(
                     NPopconfirm,
                     {
                       onPositiveClick: async () => {
-                        await deleteFactory(row.id)
+                        await deleteDevice(row.id)
                         getLists()
                       }
                     },
@@ -142,29 +99,27 @@ const columns: DataTableColumns<FactoryInfo> = [
   }
 ]
 
-const add = () => {
-  showEditModal.value = true
-  rowData.value = undefined
-}
 const getLists = async () => {
   const params: SearchParams = {
     name: formValue.value.name || null,
     status: formValue.value.status,
     page: pagination.value.page,
-    pageSize: pagination.value.pageSize,
-    all: 0
+    pageSize: pagination.value.pageSize
   }
-  const result = await getFactoryList(params)
+  const result = await getDeviceList(params)
+  // console.log(result)
   tableData.value = result.data
   pagination.value.itemCount = result.total
 }
-
-const handleReset = async () => {
+const handleReset = () => {
   formValue.value = { name: '', status: null }
   getLists()
 }
-
-onMounted(async () => {
+const add = () => {
+  showEditModal.value = true
+  rowData.value = undefined
+}
+onMounted(() => {
   getLists()
 })
 </script>
@@ -174,7 +129,7 @@ onMounted(async () => {
     <n-card class="mb-4" size="medium" hoverable>
       <n-form ref="formRef" inline :label-width="80" :model="formValue" label-placement="left">
         <n-grid :cols="24" :x-gap="24">
-          <n-form-item-gi :span="8" label="工厂名称">
+          <n-form-item-gi :span="8" label="装置名称">
             <n-input v-model:value="formValue.name" />
           </n-form-item-gi>
           <n-form-item-gi :span="8" label="状态">
@@ -196,9 +151,10 @@ onMounted(async () => {
         </n-grid>
       </n-form>
     </n-card>
-    <n-card title="工厂管理" class="flex-1" size="medium" hoverable>
+
+    <n-card title="装置管理" class="flex-1" size="medium" hoverable>
       <template #header-extra>
-        <NButton type="primary" @click="add"> 新增工厂 </NButton>
+        <NButton type="primary" @click="add"> 新增装置 </NButton>
       </template>
       <n-data-table
         class="h-full"
@@ -214,3 +170,5 @@ onMounted(async () => {
     <EditModal v-model="showEditModal" :rowData="rowData" @reload="handleReset" />
   </div>
 </template>
+
+<style lang="" scoped></style>

@@ -137,7 +137,7 @@ export const useUserStore = defineStore('user-store', {
               redirect: '',
               meta: {
                 title: '工厂管理',
-                icon: 'i-ant-design:laptop-outlined',
+                icon: 'i-ant-design:cluster-outlined ',
                 sort: 1,
                 hidden: false,
                 parentId: 21,
@@ -151,7 +151,7 @@ export const useUserStore = defineStore('user-store', {
               redirect: '',
               meta: {
                 title: '阀门管理',
-                icon: 'i-ant-design:laptop-outlined',
+                icon: 'i-ant-design:deployment-unit-outlined',
                 sort: 1,
                 hidden: false,
                 parentId: 21,
@@ -159,13 +159,41 @@ export const useUserStore = defineStore('user-store', {
               }
             },
             {
-              id: 133,
+              id: 124,
               name: 'Valve22',
               path: '/project/valve/:id',
               redirect: '',
               meta: {
                 title: '阀门管理',
-                icon: 'i-ant-design:laptop-outlined',
+                icon: 'i-ant-design:deployment-unit-outlined',
+                sort: 1,
+                hidden: true,
+                parentId: 21,
+                status: 1
+              }
+            },
+            {
+              id: 125,
+              name: 'Device',
+              path: '/project/device',
+              redirect: '',
+              meta: {
+                title: '装置管理',
+                icon: 'i-ant-design:dashboard-outlined',
+                sort: 1,
+                hidden: false,
+                parentId: 21,
+                status: 1
+              }
+            },
+            {
+              id: 126,
+              name: 'Device22',
+              path: '/project/device/:id',
+              redirect: '',
+              meta: {
+                title: '装置管理',
+                icon: 'i-ant-design:dashboard-outlined',
                 sort: 1,
                 hidden: true,
                 parentId: 21,
