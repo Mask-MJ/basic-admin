@@ -2,11 +2,16 @@
 import type { FactoryInfo } from '@/api/project/factory.type'
 import { createFactory, updateFactory, getFactoryList } from '@/api/project/factory'
 import type { FormInst } from 'naive-ui'
+import { cloneDeep } from 'lodash-es'
 
 const emits = defineEmits(['reload'])
 const props = defineProps({
   rowData: { type: Object as PropType<FactoryInfo> }
 })
+
+const route = useRoute() as any
+const factoryId = computed(() => Number(route.params.id))
+
 const show = defineModel({ required: true, type: Boolean })
 const formRef = ref<FormInst | null>(null)
 const formValue = ref({} as FactoryInfo)
@@ -18,8 +23,9 @@ const rules = {
 }
 const setDataCallback = async () => {
   if (props.rowData) {
-    formValue.value = props.rowData
+    formValue.value = cloneDeep(props.rowData)
   }
+
   factoryList.value = (await getFactoryList({ all: 1 })).data
 }
 const submitCallback = async () => {
@@ -64,7 +70,7 @@ const cancelCallback = () => {
       <n-form-item label="工厂地址" path="address">
         <n-input v-model:value="formValue.address" />
       </n-form-item>
-      <n-form-item label="所属工厂">
+      <n-form-item label="所属工厂" v-if="!factoryId">
         <n-tree-select
           v-model:value="formValue.parentId"
           :options="factoryList"

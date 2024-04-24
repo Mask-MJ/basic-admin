@@ -4,11 +4,16 @@ import { createValve, updateValve } from '@/api/project/valve'
 import type { FormInst } from 'naive-ui'
 import { getFactoryList } from '@/api/project/factory'
 import type { FactoryInfo } from '@/api/project/factory.type'
+import { cloneDeep } from 'lodash-es'
 
 const emits = defineEmits(['reload'])
 const props = defineProps({
   rowData: { type: Object as PropType<ValveInfo> }
 })
+
+const route = useRoute() as any
+const factoryId = computed(() => Number(route.params.id))
+
 const show = defineModel({ required: true, type: Boolean })
 const formRef = ref<FormInst | null>(null)
 const formValue = ref({} as ValveInfo)
@@ -24,8 +29,11 @@ const factoryOptions = computed(() => {
 })
 const setDataCallback = async () => {
   if (props.rowData) {
-    formValue.value = props.rowData
+    formValue.value = cloneDeep(props.rowData)
   }
+  // 如果有工厂id factoryId, 则将 factoryId 赋值给 formValue
+  formValue.value.factoryId = factoryId.value
+  // 获取工厂列表的数据
   factoryList.value = (await getFactoryList()).data
 }
 const submitCallback = async () => {
@@ -75,7 +83,7 @@ const cancelCallback = () => {
           </n-space>
         </n-radio-group>
       </n-form-item>
-      <n-form-item label="工厂" path="factoryId">
+      <n-form-item label="所属工厂" path="factoryId" v-if="!factoryId">
         <n-select
           v-model:value="formValue.factoryId"
           placeholder="Select"
