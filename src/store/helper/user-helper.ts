@@ -6,6 +6,7 @@ export function transformersMenus(data: RouteRecordRaw[]) {
   const locale = useAppStore().locale
   const menuOption: MenuOption[] = []
   data.forEach((item) => {
+    if (item.meta?.hidden) return
     if (item.meta) {
       const label = locale === 'zh-CN' ? item.meta.title : (item.name as string)
       const menu: MenuOption = {
