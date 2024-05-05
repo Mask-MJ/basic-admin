@@ -40,7 +40,7 @@ const columns: DataTableColumns<FactoryInfo> = [
     title: '操作',
     key: 'actions',
     align: 'center',
-    width: 200,
+    width: 250,
     render(row) {
       return h(
         NFlex,
@@ -57,6 +57,7 @@ const columns: DataTableColumns<FactoryInfo> = [
                     NButton,
                     {
                       size: 'small',
+
                       type: 'primary',
                       onClick: () => {
                         showEditModal.value = true
@@ -77,7 +78,8 @@ const columns: DataTableColumns<FactoryInfo> = [
                     NButton,
                     {
                       size: 'small',
-                      type: 'warning',
+                      type: 'info',
+                      secondary: true,
                       onClick: () => {
                         // showEditModal.value = true
                         // rowData.value = row
@@ -99,6 +101,7 @@ const columns: DataTableColumns<FactoryInfo> = [
                     {
                       size: 'small',
                       type: 'info',
+                      secondary: true,
                       onClick: () => {
                         // showEditModal.value = true
                         // rowData.value = row
@@ -106,6 +109,28 @@ const columns: DataTableColumns<FactoryInfo> = [
                       }
                     },
                     { default: () => h('i', { class: 'i-ant-design:dashboard-outlined' }) }
+                  )
+              }
+            ),
+            h(
+              NPopover,
+              { trigger: 'hover' },
+              {
+                default: () => '项目',
+                trigger: () =>
+                  h(
+                    NButton,
+                    {
+                      size: 'small',
+                      type: 'info',
+                      secondary: true,
+                      onClick: () => {
+                        // showEditModal.value = true
+                        // rowData.value = row
+                        router.push(`/project/contract/${row.id}`)
+                      }
+                    },
+                    { default: () => h('i', { class: 'i-ant-design:cloud-server-outlined' }) }
                   )
               }
             ),

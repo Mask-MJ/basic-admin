@@ -199,6 +199,34 @@ export const useUserStore = defineStore('user-store', {
                 parentId: 21,
                 status: 1
               }
+            },
+            {
+              id: 127,
+              name: 'Device',
+              path: '/project/contract',
+              redirect: '',
+              meta: {
+                title: '项目管理',
+                icon: 'i-ant-design:cloud-server-outlined',
+                sort: 1,
+                hidden: false,
+                parentId: 21,
+                status: 1
+              }
+            },
+            {
+              id: 128,
+              name: 'Device22',
+              path: '/project/contract/:id',
+              redirect: '',
+              meta: {
+                title: '项目管理',
+                icon: 'i-ant-design:cloud-server-outlined',
+                sort: 1,
+                hidden: true,
+                parentId: 21,
+                status: 1
+              }
             }
           ]
         },

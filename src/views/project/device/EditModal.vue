@@ -50,12 +50,11 @@ const submitCallback = async () => {
   if (props.rowData) {
     // 编辑
     await updateDevice(formValue.value)
-    emits('reload')
   } else {
     // 新增
     await createDevice(formValue.value)
-    emits('reload')
   }
+  emits('reload')
 }
 // 取消按钮的回调: 清空 formValue
 const cancelCallback = () => {

@@ -46,7 +46,11 @@ const rules: FormRules = {
 const submitCallback = async () => {
   await formRef.value?.validate()
   const id = props.rowData.id
-  changePassword({ id, password: formValue.value.password! })
+  changePassword({
+    id,
+    password: formValue.value.password!,
+    oldPassword: formValue.value.reenteredPassword!
+  })
 }
 const cancelCallback = () => {
   formValue.value = { password: null, reenteredPassword: null }
