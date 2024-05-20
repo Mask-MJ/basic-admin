@@ -202,7 +202,7 @@ export const useUserStore = defineStore('user-store', {
             },
             {
               id: 127,
-              name: 'Device',
+              name: 'Device33',
               path: '/project/contract',
               redirect: '',
               meta: {
@@ -216,7 +216,7 @@ export const useUserStore = defineStore('user-store', {
             },
             {
               id: 128,
-              name: 'Device22',
+              name: 'contract',
               path: '/project/contract/:id',
               redirect: '',
               meta: {
@@ -224,6 +224,20 @@ export const useUserStore = defineStore('user-store', {
                 icon: 'i-ant-design:cloud-server-outlined',
                 sort: 1,
                 hidden: true,
+                parentId: 21,
+                status: 1
+              }
+            },
+            {
+              id: 228,
+              name: 'analysisTask',
+              path: '/project/analysisTask',
+              redirect: '',
+              meta: {
+                title: '分析任务',
+                icon: 'i-ant-design:cloud-server-outlined',
+                sort: 1,
+                hidden: false,
                 parentId: 21,
                 status: 1
               }
