@@ -4,7 +4,6 @@ export interface SearchParams {
   dictId: number
   name: string | null
   value: string | null
-  status: number | null
 }
 
 export interface DictDataInfo {

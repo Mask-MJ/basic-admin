@@ -44,12 +44,11 @@ const submitCallback = async () => {
   if (props.rowData) {
     // 编辑
     await updateValve(formValue.value)
-    emits('reload')
   } else {
     // 新增
     await createValve(formValue.value)
-    emits('reload')
   }
+  emits('reload')
 }
 const cancelCallback = () => {
   formValue.value = {} as ValveInfo
